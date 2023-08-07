@@ -1,34 +1,97 @@
 import {
   Controller,
-  Post,
   Body,
+  Param,
+  Request,
   HttpException,
   HttpStatus,
+  Post,
+  Get,
+  Patch,
+  Delete,
 } from '@nestjs/common';
 import { BoardService } from './board.service';
-import { CreateBoardDto } from './dto';
+import { CreateBoardDto, UpdateBoardDto } from './dto';
 
 @Controller('board')
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
+  // TO DO: (임시-삭제 필요) 유저 정보 가져오기
+  private readonly user_id = 1;
+
+  // 로그인 검증
+  private validateLogin(userPayload) {
+    if (!userPayload.user) {
+      throw new HttpException(
+        { message: '로그인이 필요한 기능입니다.' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
   //-- 보드 생성 --//
   @Post()
   async createBoard(
+    // @Request() req: CustomRequest,
     @Body() createBoardDto: CreateBoardDto,
+  ) {
+    // const userPayload = req.user;
+    // const user_id = userPayload.user_id;
+    // this.validateLogin(userPayload);
+    return await this.boardService.create(createBoardDto, this.user_id);
+  }
+
+  //-- 보드 전체보기 --//
+  @Get()
+  async getBoards() {
+    // const userPayload = req.user;
+    // const user_id = userPayload.user_id;
+    // this.validateLogin(userPayload);
+    return await this.boardService.getAll(this.user_id);
+  }
+
+  //-- 보드 상세보기 --//
+  @Get('/:board_id')
+  async getBoard(@Param('board_id') board_id: number) {
+    // const userPayload = req.user;
+    // const user_id = userPayload.user_id;
+    // this.validateLogin(userPayload);
+    return await this.boardService.getBoard(board_id);
+  }
+
+  //-- 보드 수정하기 --//
+  @Patch('/:board_id')
+  async updateBoard(
+    @Param('board_id') board_id: number,
+    // @Request() req: CustomRequest,
+    @Body() updateBoardDto: UpdateBoardDto,
+  ) {
+    // const userPayload = req.user;
+    // const user_id = userPayload.user_id;
+    // this.validateLogin(userPayload);
+
+    if (!updateBoardDto) {
+      throw new HttpException(
+        { message: '입력 데이터를 확인해주세요.' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    return await this.boardService.update(updateBoardDto, board_id);
+  }
+
+  //-- 보드 삭제하기 --//
+  @Delete('/:board_id')
+  async deleteBoard(
+    @Param('board_id') board_id: number,
     // @Request() req: CustomRequest,
   ) {
-    // TO DO :: 유저 정보 가져오기
     // const userPayload = req.user;
-    const user_id = 1; // 값 userPayload.user_id로 변경필요
-
-    // if (userPayload.user) {
-    //   throw new HttpException(
-    //     { message: '로그인이 필요한 기능입니다.',
-    //     HttpStatus.BAD_REQUEST,
-    //   );
-    // }
-
-    return await this.boardService.create(createBoardDto, user_id);
+    // const user_id = userPayload.user_id;
+    // this.validateLogin(userPayload);
+    return await this.boardService.delete(board_id);
   }
+
+  //-- 보드 권한유저 추가 --//
 }

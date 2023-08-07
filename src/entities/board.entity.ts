@@ -6,7 +6,10 @@ import {
   Column,
   BeforeInsert,
   BeforeUpdate,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+// import { User } from './user.entity';
 
 @Entity('board')
 export class BoardEntity {
@@ -14,7 +17,7 @@ export class BoardEntity {
   id: number;
 
   @Column({ nullable: false })
-  User_id: number;
+  user_id: number;
 
   @Column({ nullable: false })
   name: string;
@@ -39,4 +42,9 @@ export class BoardEntity {
       throw new Error('컬러 코드를 입력해주세요 (ex. #00000)');
     }
   }
+
+  // TODO :: user 테이블 연결
+  // @ManyToOne(() => User, (user) => user.performance)
+  // @JoinColumn({ name: 'user_id' })
+  // user: User;
 }
