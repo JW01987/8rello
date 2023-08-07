@@ -23,4 +23,7 @@ export class Card {
 
   //   @ManyToOne(() => Column, (column) => column.cards)
   //   column: Column;
+
+  //   @OneToMany(() => Card_comment, (card_comments) => card_comments.card)
+  //   card_comments: Card_comment;
 }

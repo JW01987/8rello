@@ -4,21 +4,24 @@ import {
   Post,
   Body,
   Patch,
+  ParseFileOptions,
   Param,
   Delete,
   Query,
+  Req,
   Res,
 } from '@nestjs/common';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
 import { Response } from 'express';
+import { IRequest } from 'src/commons/interfaces/context';
 
 @Controller('cards')
 export class CardsController {
   constructor(private readonly cardsService: CardsService) {}
 
-  @Post()
+  @Post() // column_id 추가 필요
   public async createCard(
     @Body() createCardDto: CreateCardDto,
     @Query() Query,
@@ -54,7 +57,7 @@ export class CardsController {
     return res.json({ message, result });
   }
 
-  @Patch()
+  @Patch('position')
   public async updateCardPosition(@Query() Query, @Res() res: Response) {
     const { card_id, position } = Query;
     const { message } = await this.cardsService.updateCardPosition(
@@ -62,5 +65,23 @@ export class CardsController {
       position,
     );
     return res.json({ message });
+  }
+
+  @Post('comments')
+  public async createCardComment(
+    @Query() Query,
+    @Req() req: IRequest,
+    @Res() res: Response,
+    @Body('comment') comment,
+  ) {
+    const user_id = req.user.id;
+    const { card_id } = Query;
+    const { message, result } = await this.cardsService.createCardComment(
+      card_id,
+      user_id,
+      comment,
+    );
+
+    return res.json({ message, result });
   }
 }
