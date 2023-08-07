@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateBoardDto } from './dto';
-import { BoardEntity } from './board.entity';
+import { BoardEntity } from '../entities/board.entity';
 
 @Injectable()
 export class BoardService {
@@ -15,11 +15,19 @@ export class BoardService {
   async create(createBoardDto: CreateBoardDto, user_id: number) {
     const newBoard = this.boardRepository.create({
       User_id: user_id,
-      name: createBoardDto.name,
-      introduction: createBoardDto.introduction,
-      bg_color: createBoardDto.bg_color,
+      ...createBoardDto,
     });
-
-    return this.boardRepository.save(newBoard);
+    try {
+      await this.boardRepository.save(newBoard);
+      return { message: '보드 생성에 성공했습니다.' };
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(
+        {
+          message: `보드 생성중 오류가 발생했습니다. \n${error.message}`,
+        },
+        HttpStatus.BAD_GATEWAY,
+      );
+    }
   }
 }

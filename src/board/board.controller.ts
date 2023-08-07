@@ -23,9 +23,8 @@ export class BoardController {
     const user_id = 1; // 값 userPayload.user_id로 변경필요
 
     // if (userPayload.user) {
-    //   const _errors = { username: '유효하지 않은 사용자 입력입니다.' };
     //   throw new HttpException(
-    //     { message: '입력 데이터 유효성 검사 실패', _errors },
+    //     { message: '로그인이 필요한 기능입니다.',
     //     HttpStatus.BAD_REQUEST,
     //   );
     // }
