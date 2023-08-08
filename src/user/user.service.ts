@@ -7,7 +7,7 @@ import * as bcrypt from 'bcrypt';
 
 // 회원가입, 사용자 정보 수정
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(@InjectRepository(User) private userRepository: Repository<User>) {}
 
   async signup(user: CreateUserDto): Promise<{ message: string }> {
@@ -15,7 +15,7 @@ export class UsersService {
     if (existingUser) {
       throw new HttpException('이미 존재하는 사용자입니다.', HttpStatus.CONFLICT);
     }
-    const encryptedPassword = bcrypt.hashSync(user.password, 10);
+    const encryptedPassword = await bcrypt.hash(user.password, 10);
 
     try {
       await this.userRepository.save({ ...user, password: encryptedPassword });
@@ -36,5 +36,9 @@ export class UsersService {
     } catch (error) {
       throw new HttpException('서버 에러', HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  async findUserByEmail(email: string) {
+    return await this.userRepository.findOne({ where: { email } });
   }
 }
