@@ -5,7 +5,6 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ColumnModule } from './column/column.module';
-import { Columns } from './entities/column.entity';
 
 @Module({
   imports: [
