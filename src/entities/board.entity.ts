@@ -12,6 +12,7 @@ import {
 } from 'typeorm';
 // import { User } from './user.entity';
 import { BoardAuthorityEntity } from './board_authority.entity';
+import { Columns } from './column.entity';
 
 @Entity('board')
 export class BoardEntity {
@@ -56,4 +57,7 @@ export class BoardEntity {
     { cascade: true },
   )
   boardAuthority: BoardAuthorityEntity[];
+
+  @OneToMany(() => Columns, (col) => col.board)
+  columns: Columns[];
 }
