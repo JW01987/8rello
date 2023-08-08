@@ -1,15 +1,15 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateBoardDto {
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   readonly name: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   readonly introduction: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   readonly bg_color: string;
 }

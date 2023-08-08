@@ -4,10 +4,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Column,
+  JoinColumn,
+  ManyToOne,
 } from 'typeorm';
-
+import { BoardEntity } from './board.entity';
 @Entity('board_authority')
-export class boardAuthorityEntity {
+export class BoardAuthorityEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -22,4 +24,8 @@ export class boardAuthorityEntity {
 
   @UpdateDateColumn({ type: 'timestamp' })
   upate_at: Date;
+
+  @ManyToOne(() => BoardEntity, (board) => board.boardAuthority)
+  @JoinColumn({ name: 'board_id' })
+  board: BoardEntity;
 }

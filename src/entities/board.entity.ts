@@ -8,8 +8,10 @@ import {
   BeforeUpdate,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 // import { User } from './user.entity';
+import { BoardAuthorityEntity } from './board_authority.entity';
 
 @Entity('board')
 export class BoardEntity {
@@ -44,7 +46,14 @@ export class BoardEntity {
   }
 
   // TODO :: user 테이블 연결
-  // @ManyToOne(() => User, (user) => user.performance)
+  // @ManyToOne(() => User, (user) => user.boards)
   // @JoinColumn({ name: 'user_id' })
   // user: User;
+
+  @OneToMany(
+    () => BoardAuthorityEntity,
+    (boardAuthority) => boardAuthority.board,
+    { cascade: true },
+  )
+  boardAuthority: BoardAuthorityEntity[];
 }

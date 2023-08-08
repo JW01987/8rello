@@ -9,6 +9,8 @@ import {
   Get,
   Patch,
   Delete,
+  createParamDecorator,
+  ExecutionContext,
 } from '@nestjs/common';
 import { BoardService } from './board.service';
 import { CreateBoardDto, UpdateBoardDto } from './dto';
@@ -18,7 +20,7 @@ export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
   // TO DO: (임시-삭제 필요) 유저 정보 가져오기
-  private readonly user_id = 1;
+  private readonly user_id = undefined;
 
   // 로그인 검증
   private validateLogin(userPayload) {
@@ -29,25 +31,25 @@ export class BoardController {
       );
     }
   }
+  // request-user 가져오기
+  AuthUser = createParamDecorator((data: unknown, ctx: ExecutionContext) => {
+    const request = ctx.switchToHttp().getRequest();
+    return request.user;
+  });
 
   //-- 보드 생성 --//
   @Post()
   async createBoard(
-    // @Request() req: CustomRequest,
     @Body() createBoardDto: CreateBoardDto,
+    // @AuthUser() userPayload: any, => TODO :: user_id 필요한 부분 전체 반영해야 함
   ) {
-    // const userPayload = req.user;
-    // const user_id = userPayload.user_id;
-    // this.validateLogin(userPayload);
+    this.validateLogin(this.user_id);
     return await this.boardService.create(createBoardDto, this.user_id);
   }
 
   //-- 보드 전체보기 --//
   @Get()
   async getBoards() {
-    // const userPayload = req.user;
-    // const user_id = userPayload.user_id;
-    // this.validateLogin(userPayload);
     return await this.boardService.getAll(this.user_id);
   }
 
@@ -64,34 +66,24 @@ export class BoardController {
   @Patch('/:board_id')
   async updateBoard(
     @Param('board_id') board_id: number,
-    // @Request() req: CustomRequest,
     @Body() updateBoardDto: UpdateBoardDto,
   ) {
-    // const userPayload = req.user;
-    // const user_id = userPayload.user_id;
-    // this.validateLogin(userPayload);
-
-    if (!updateBoardDto) {
-      throw new HttpException(
-        { message: '입력 데이터를 확인해주세요.' },
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-
-    return await this.boardService.update(updateBoardDto, board_id);
+    return await this.boardService.update(
+      this.user_id,
+      board_id,
+      updateBoardDto,
+    );
   }
 
   //-- 보드 삭제하기 --//
   @Delete('/:board_id')
-  async deleteBoard(
-    @Param('board_id') board_id: number,
-    // @Request() req: CustomRequest,
-  ) {
-    // const userPayload = req.user;
-    // const user_id = userPayload.user_id;
-    // this.validateLogin(userPayload);
-    return await this.boardService.delete(board_id);
+  async deleteBoard(@Param('board_id') board_id: number) {
+    return await this.boardService.delete(this.user_id, board_id);
   }
 
   //-- 보드 권한유저 추가 --//
+  @Post('/:board_id/invition')
+  async invition(@Param('board_id') board_id: number) {
+    return await this.boardService.createBoardAuthority(this.user_id, board_id);
+  }
 }
