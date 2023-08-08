@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CardsModule } from './cards/cards.module';
 import { ColumnModule } from './column/column.module';
+import { BoardModule } from './board/board.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ColumnModule } from './column/column.module';
       namingStrategy: new SnakeNamingStrategy(),
     }),
     // ColumnModule,
+    BoardModule,
     CardsModule,
   ],
   controllers: [AppController],
