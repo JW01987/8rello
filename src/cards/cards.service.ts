@@ -23,14 +23,33 @@ export class CardsService {
   // column_id 추가 필요
   public async createCard(createCardDto: CreateCardDto, column_id: number) {
     const { card_name, description, card_color, deadline } = createCardDto;
+    const position = await this.getLastPosition();
+
     const result = await this.cardRepository.save({
       card_name,
       description,
       card_color,
       deadline,
+      position: position + 1000,
       column: { id: column_id },
     });
     return { result, message: '카드 생성에 성공했습니다.' };
+  }
+
+  public async findAllCards() {
+    const results = await this.cardRepository.find({
+      order: { position: 'ASC' },
+    });
+    return { message: '카드목록 조회에 성공했습니다', results };
+  }
+
+  public async getLastPosition() {
+    const card = await this.cardRepository.find({
+      order: { position: 'DESC' },
+      take: 1,
+    });
+    const position = card[0].position;
+    return position;
   }
 
   public async findCardDetail(card_id: number) {
@@ -88,6 +107,13 @@ export class CardsService {
     return { message: '순서 변경에 성공했습니다.' };
   }
 
+  // public async updateCardPosition2(card_id: number, position: number) {
+  //   const card = await this.cardRepository.findOneBy({ id: card_id });
+  //   card.position = position;
+  //   await this.cardRepository.save(card);
+  //   return card;
+  // }
+
   public async createCardComment(card_id, user_id, comment) {
     const result = await this.commentRepository.save({
       comment,
@@ -95,5 +121,10 @@ export class CardsService {
       user: { id: user_id },
     });
     return { message: '댓글이 작성되었습니다', result };
+  }
+
+  public async deleteCard(card_id) {
+    await this.cardRepository.delete({ id: card_id });
+    return { message: '카드가 삭제되었습니다' };
   }
 }

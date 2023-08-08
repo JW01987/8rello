@@ -67,6 +67,16 @@ export class CardsController {
     return res.json({ message });
   }
 
+  // @Patch('position')
+  // public async updateCardPosition() {
+  //   const result = await this.cardsService.updateCardPosition2(
+  //     card_id,
+  //     prev,
+  //     next,
+  //   );
+  //   return result;
+  // }
+
   @Post('comments')
   public async createCardComment(
     @Query() Query,
@@ -83,5 +93,20 @@ export class CardsController {
     );
 
     return res.json({ message, result });
+  }
+
+  @Delete()
+  public async deleteCard(
+    @Query('card_id') card_id: number,
+    @Res() res: Response,
+  ) {
+    const { message } = await this.cardsService.deleteCard(card_id);
+    return res.json({ message });
+  }
+
+  @Get('aaaa')
+  public async test() {
+    const result = await this.cardsService.getLastPosition();
+    return result;
   }
 }
