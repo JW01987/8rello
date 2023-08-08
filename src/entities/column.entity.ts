@@ -2,10 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { BoardEntity } from './board.entity';
 import { Card } from './card.entity';
 
 @Entity()
@@ -28,9 +30,9 @@ export class Columns {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  //   @ManyToOne(() => Board, (board) => board.columns)
-  //   board: Board;
+  @ManyToOne(() => BoardEntity, (board) => board.columns)
+  board: BoardEntity;
 
   @OneToMany(() => Card, (cards) => cards.column)
-  cards: Card;
+  cards: Card[];
 }
