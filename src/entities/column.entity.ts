@@ -2,9 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Card } from './card.entity';
 
 @Entity()
 export class Columns {
@@ -28,4 +30,7 @@ export class Columns {
 
   //   @ManyToOne(() => Board, (board) => board.columns)
   //   board: Board;
+
+  @OneToMany(() => Card, (cards) => cards.column)
+  cards: Card;
 }
