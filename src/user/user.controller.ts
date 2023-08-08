@@ -1,10 +1,10 @@
 import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
-import { UsersService } from './user.service';
+import { UserService } from './user.service';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
 
 @Controller('users')
 export class UserController {
-  constructor(private userService: UsersService) {}
+  constructor(private userService: UserService) {}
 
   @Post('/signup')
   createUser(@Body() user: CreateUserDto): Promise<{ message: string }> {
