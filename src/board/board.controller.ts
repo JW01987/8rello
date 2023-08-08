@@ -20,7 +20,7 @@ export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
   // TO DO: (임시-삭제 필요) 유저 정보 가져오기
-  private readonly user_id = undefined;
+  private readonly user_id = 1;
 
   // 로그인 검증
   private validateLogin(userPayload) {
@@ -31,6 +31,7 @@ export class BoardController {
       );
     }
   }
+
   // request-user 가져오기
   AuthUser = createParamDecorator((data: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
@@ -56,9 +57,6 @@ export class BoardController {
   //-- 보드 상세보기 --//
   @Get('/:board_id')
   async getBoard(@Param('board_id') board_id: number) {
-    // const userPayload = req.user;
-    // const user_id = userPayload.user_id;
-    // this.validateLogin(userPayload);
     return await this.boardService.getBoard(board_id);
   }
 
