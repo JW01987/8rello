@@ -4,10 +4,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateCardDto } from './dto/create-card.dto';
+import { CreateCardDto } from './dto/card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
 import { Card } from 'src/entities/card.entity';
-import { Repository } from 'typeorm';
+import { MoreThanOrEqual, Repository } from 'typeorm';
 import { Card_comment } from 'src/entities/card-comment.entity';
 
 @Injectable()
@@ -80,39 +80,38 @@ export class CardsService {
     return { message: '카드정보 수정에 성공했습니다.', result };
   }
 
-  public async updateCardPosition(card_id: number, position: string) {
-    const card = await this.cardRepository.findOneBy({ id: card_id });
-    if (position === 'up') {
-      if (card.position === 1) {
-        throw new ForbiddenException('이미 최상단입니다');
+  public async updateCardPosition(
+    card_id: number,
+    column_id: number,
+    prevPosition: number,
+    nextPosition: number,
+  ) {
+    const targetCard = await this.cardRepository.findOneBy({ id: card_id });
+    if (
+      nextPosition - prevPosition === 1 ||
+      (!prevPosition && nextPosition === 1)
+    ) {
+      const cards = await this.cardRepository
+        .createQueryBuilder('cards')
+        .select()
+        .where('cards.position >= :position', { position: nextPosition })
+        .getMany();
+      for await (let card of cards) {
+        card.position = card.position + 1000;
+        await this.cardRepository.save(card);
       }
-      const previousCard = await this.cardRepository.findOneBy({
-        position: card.position - 1,
-      });
-      card.position -= 1;
-      previousCard.position += 1;
-      await this.cardRepository.save(previousCard);
-    } else if (position === 'down') {
-      const nextCard = await this.cardRepository.findOneBy({
-        position: card.position + 1,
-      });
-      if (!nextCard) {
-        throw new ForbiddenException('이미 마지막입니다');
-      }
-      card.position += 1;
-      nextCard.position -= 1;
-      await this.cardRepository.save(nextCard);
+      nextPosition = nextPosition + 1000;
+      targetCard.position = Math.ceil((prevPosition + nextPosition) / 2);
+      // targetCard.column = column_id;
+      // await this.cardRepository.update({id:card_id}, {column:column_id})
+      await this.cardRepository.save(targetCard);
+      return targetCard;
+    } else {
+      targetCard.position = Math.ceil((prevPosition + nextPosition) / 2);
+      await this.cardRepository.save(targetCard);
+      return targetCard;
     }
-    await this.cardRepository.save(card);
-    return { message: '순서 변경에 성공했습니다.' };
   }
-
-  // public async updateCardPosition2(card_id: number, position: number) {
-  //   const card = await this.cardRepository.findOneBy({ id: card_id });
-  //   card.position = position;
-  //   await this.cardRepository.save(card);
-  //   return card;
-  // }
 
   public async createCardComment(card_id, user_id, comment) {
     const result = await this.commentRepository.save({
