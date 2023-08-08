@@ -12,6 +12,10 @@ export class UpdateCardDto extends PartialType(CreateCardDto) {
 export class updateCardPositionDto {
   @IsNotEmpty()
   @IsNumber()
+  column_id: number;
+
+  @IsNotEmpty()
+  @IsNumber()
   prevPosition: number;
 
   @IsNotEmpty()

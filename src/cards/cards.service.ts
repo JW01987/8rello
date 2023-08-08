@@ -82,6 +82,7 @@ export class CardsService {
 
   public async updateCardPosition(
     card_id: number,
+    column_id: number,
     prevPosition: number,
     nextPosition: number,
   ) {
@@ -101,6 +102,8 @@ export class CardsService {
       }
       nextPosition = nextPosition + 1000;
       targetCard.position = Math.ceil((prevPosition + nextPosition) / 2);
+      // targetCard.column = column_id;
+      // await this.cardRepository.update({id:card_id}, {column:column_id})
       await this.cardRepository.save(targetCard);
       return targetCard;
     } else {

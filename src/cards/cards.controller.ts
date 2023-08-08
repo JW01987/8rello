@@ -77,9 +77,10 @@ export class CardsController {
     @Body() body: updateCardPositionDto,
     @Query('card_id') card_id: number,
   ) {
-    const { prevPosition, nextPosition } = body;
+    const { column_id, prevPosition, nextPosition } = body;
     const result = await this.cardsService.updateCardPosition(
       card_id,
+      column_id,
       prevPosition,
       nextPosition,
     );
