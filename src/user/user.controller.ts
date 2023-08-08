@@ -12,7 +12,10 @@ export class UserController {
   }
 
   @Patch('/:id')
-  updateUser(@Param('id') id: number, @Body() user: UpdateUserDto): Promise<{ message: string }> {
+  updateUser(
+    @Param('id') id: number,
+    @Body() user: UpdateUserDto,
+  ): Promise<{ message: string }> {
     return this.userService.updateUser(id, user);
   }
 }

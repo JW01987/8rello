@@ -1,5 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-// import { Column } from './column.entity';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToOne,
+} from 'typeorm';
+import { Columns } from './column.entity';
+import { Card_comment } from './card-comment.entity';
 
 @Entity({ name: 'cards' })
 export class Card {
@@ -21,9 +28,9 @@ export class Card {
   @Column()
   position: number;
 
-  //   @ManyToOne(() => Column, (column) => column.cards)
-  //   column: Column;
+  @ManyToOne(() => Columns, (column) => column.cards)
+  column: Columns;
 
-  //   @OneToMany(() => Card_comment, (card_comments) => card_comments.card)
-  //   card_comments: Card_comment;
+  @OneToMany(() => Card_comment, (card_comments) => card_comments.card)
+  card_comments: Card_comment;
 }
