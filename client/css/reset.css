@@ -1,0 +1,210 @@
+@charset "utf-8";
+
+html,
+body {
+  min-height: 100%;
+  line-height: normal;
+}
+
+body,
+header,
+button,
+div,
+section,
+article,
+dd,
+dl,
+dt,
+fieldset,
+form,
+input,
+legend,
+li,
+ol,
+a,
+p,
+select,
+table,
+td,
+textarea,
+th,
+ul,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 address,
+footer,
+figure {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  box-sizing: border-box;
+}
+
+input,
+button,
+select,
+optgroup,
+textarea {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+  line-height: inherit;
+  color: inherit;
+  text-transform: inherit;
+  vertical-align: middle;
+  letter-spacing: inherit;
+  background: none;
+}
+
+fieldset,
+img,
+abbr,
+acronym,
+select {
+  border: 0;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+ul li {
+  list-style: none;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 0 none;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+caption,
+th,
+td {
+  text-align: left;
+  font-weight: normal;
+  border: 0;
+}
+
+/* HTML5 Boilerplate  */
+img,
+video {
+  border: 0;
+  vertical-align: top;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  box-sizing: border-box;
+}
+
+form {
+  width: 100%;
+  height: 100%;
+}
+
+button {
+  cursor: pointer;
+}
+
+input {
+  -webkit-appearance: none;
+  -webkit-user-select: initial;
+  -khtml-user-select: initial;
+  -moz-user-select: initial;
+  -ms-user-select: initial;
+  user-select: initial;
+  -webkit-border-radius: 0;
+  -webkit-appearance: none;
+}
+
+select {
+  -webkit-appearance: none;
+  /* 네이티브 외형 감추기*/
+  -moz-appearance: none;
+  appearance: none;
+  font-weight: normal;
+  letter-spacing: normal;
+}
+
+/* IE 10, 11의 네이티브 화살표 숨기기 */
+select::-ms-expand {
+  display: none;
+}
+
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+input[type='search'] {
+  -webkit-appearance: textfield;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+input[type='text']::-ms-clear {
+  display: none;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+textarea {
+  overflow: auto;
+  vertical-align: top;
+  resize: none;
+}
+
+address {
+  font-style: normal;
+}
+
+/* 아이폰 input style 초기화 */
+input[type='text'],
+input[type='tel'],
+input[type='button'],
+input[type='password'],
+input[type='email'],
+input[type='search'],
+textarea,
+button {
+  -webkit-appearance: none;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+}
+
+::after,
+::before {
+  box-sizing: border-box;
+}
