@@ -7,6 +7,9 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { User } from './entities/user.entity';
 import { AuthModule } from './auth/auth.module';
+import { CardsModule } from './cards/cards.module';
+import { ColumnModule } from './column/column.module';
+import { BoardModule } from './board/board.module';
 
 @Module({
   imports: [
@@ -18,12 +21,15 @@ import { AuthModule } from './auth/auth.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [User],
+      autoLoadEntities: true,
       synchronize: true,
       namingStrategy: new SnakeNamingStrategy(),
     }),
+    ColumnModule,
     UserModule,
     AuthModule,
+    BoardModule,
+    CardsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
