@@ -12,8 +12,8 @@ import {
   Res,
 } from '@nestjs/common';
 import { CardsService } from './cards.service';
-import { CreateCardDto } from './dto/create-card.dto';
-import { UpdateCardDto } from './dto/update-card.dto';
+import { CreateCardDto } from './dto/card.dto';
+import { UpdateCardDto, updateCardPositionDto } from './dto/update-card.dto';
 import { Response } from 'express';
 import { IRequest } from 'src/commons/interfaces/context';
 
@@ -21,13 +21,15 @@ import { IRequest } from 'src/commons/interfaces/context';
 export class CardsController {
   constructor(private readonly cardsService: CardsService) {}
 
-  @Post() // column_id 추가 필요
+  // 카드 생성
+  @Post('create') // column_id 추가 필요
   public async createCard(
     @Body() createCardDto: CreateCardDto,
     @Query() Query,
     @Res() res: Response,
   ) {
     const { column_id } = Query;
+    console.log(column_id);
     const { result, message } = await this.cardsService.createCard(
       createCardDto,
       column_id,
@@ -43,6 +45,7 @@ export class CardsController {
     return { message, result };
   }
 
+  //카드 내용 수정
   @Patch()
   public async updateCard(
     @Query() Query,
@@ -57,26 +60,33 @@ export class CardsController {
     return res.json({ message, result });
   }
 
-  @Patch('position')
-  public async updateCardPosition(@Query() Query, @Res() res: Response) {
-    const { card_id, position } = Query;
-    const { message } = await this.cardsService.updateCardPosition(
-      card_id,
-      position,
-    );
-    return res.json({ message });
-  }
-
+  //카드 이동
   // @Patch('position')
-  // public async updateCardPosition() {
-  //   const result = await this.cardsService.updateCardPosition2(
+  // public async updateCardPosition(@Query() Query, @Res() res: Response) {
+  //   const { card_id, position } = Query;
+  //   const { message } = await this.cardsService.updateCardPosition(
   //     card_id,
-  //     prev,
-  //     next,
+  //     position,
   //   );
-  //   return result;
+  //   return res.json({ message });
   // }
 
+  //카드 이동
+  @Patch('position')
+  public async updateCardPosition(
+    @Body() body: updateCardPositionDto,
+    @Query('card_id') card_id: number,
+  ) {
+    const { prevPosition, nextPosition } = body;
+    const result = await this.cardsService.updateCardPosition(
+      card_id,
+      prevPosition,
+      nextPosition,
+    );
+    return result;
+  }
+
+  //카드 댓글 작성
   @Post('comments')
   public async createCardComment(
     @Query() Query,
@@ -95,6 +105,7 @@ export class CardsController {
     return res.json({ message, result });
   }
 
+  // 카드 삭제
   @Delete()
   public async deleteCard(
     @Query('card_id') card_id: number,

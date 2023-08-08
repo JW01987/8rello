@@ -31,6 +31,6 @@ export class Columns {
   //   @ManyToOne(() => Board, (board) => board.columns)
   //   board: Board;
 
-  @OneToMany(() => Card, (cards) => cards.column)
-  cards: Card;
+  @OneToMany(() => Card, (cards) => cards.column, { cascade: true })
+  cards: Card[];
 }
