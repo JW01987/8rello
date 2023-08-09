@@ -22,21 +22,24 @@ export class CardsService {
 
   public async createCard(createCardDto: CreateCardDto, column_id: number) {
     const { card_name, description, card_color, deadline } = createCardDto;
-    const position = await this.getLastPosition();
-
+    let position = await this.getLastPosition();
+    if (!position) {
+      position = 1000;
+    }
     const result = await this.cardRepository.save({
       card_name,
       description,
       card_color,
       deadline,
       position: position + 1000,
-      column: { id: column_id },
+      column_id,
     });
     return { result, message: '카드 생성에 성공했습니다.' };
   }
 
-  public async findAllCards() {
+  public async showColumnCard(column_id) {
     const results = await this.cardRepository.find({
+      where: { column_id },
       order: { position: 'ASC' },
     });
     return { message: '카드목록 조회에 성공했습니다', results };
@@ -47,8 +50,12 @@ export class CardsService {
       order: { position: 'DESC' },
       take: 1,
     });
-    const position = card[0].position;
-    return position;
+    if (card) {
+      const position = card[0].position;
+      return position;
+    } else {
+      return null;
+    }
   }
 
   public async findCardDetail(card_id: number) {

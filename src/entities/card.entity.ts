@@ -5,6 +5,7 @@ import {
   OneToMany,
   ManyToOne,
   RelationId,
+  JoinColumn,
 } from 'typeorm';
 import { Columns } from './column.entity';
 import { Card_comment } from './card-comment.entity';
@@ -17,6 +18,9 @@ export class Card {
 
   @Column({ nullable: false })
   card_name: string;
+
+  @Column()
+  column_id: number;
 
   @Column()
   description: string;
@@ -34,7 +38,7 @@ export class Card {
     eager: true,
     onDelete: 'CASCADE',
   })
-  @RelationId((card: Card) => card.column)
+  @JoinColumn({ name: 'column_id' })
   column: Columns;
 
   @OneToMany(() => Card_comment, (card_comments) => card_comments.card)

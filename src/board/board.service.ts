@@ -63,7 +63,6 @@ export class BoardService {
         HttpStatus.NOT_FOUND,
       );
     }
-    console.log(targetBoards);
 
     return targetBoards;
   }
