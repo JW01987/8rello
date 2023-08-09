@@ -84,7 +84,7 @@
                 type="text"
                 class="form-control"
                 id="board-color"
-                placeholder="#ffffff"
+                placeholder="#fffff"
               />
             </div>
           </div>
@@ -103,6 +103,80 @@
               onclick="createBoard()"
             >
               생성하기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 모달 : 보드 수정 -->
+    <div
+      class="modal fade"
+      id="editBoard"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">보드 수정하기</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="board-name" class="form-label">보드 이름</label>
+              <input
+                type="text"
+                class="form-control"
+                id="board-name"
+                placeholder="보드 이름"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="board-introduction" class="form-label"
+                >보드 설명</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="board-introduction"
+                placeholder="보드 설명"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="board-color" class="form-label"
+                >배경색으로 지정할 컬러값을 입력해주세요. (ex.#00000)</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="board-color"
+                placeholder="#fffff"
+              />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              닫기
+            </button>
+            <button
+              type="button"
+              id="btnEditBoardComplete"
+              class="btn btn-primary"
+              onclick="updateBoard()"
+            >
+              수정하기
             </button>
           </div>
         </div>

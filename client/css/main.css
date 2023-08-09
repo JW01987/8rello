@@ -50,10 +50,6 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
-.sidebar-nav li:first-child a {
-  color: #fff;
-}
-
 .sidebar-nav > .sidebar-brand {
   font-size: 1.3em;
   line-height: 3em;
