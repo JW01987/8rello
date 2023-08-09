@@ -7,7 +7,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
   @Get()
   root(@Res() res: any) {
-    res.sendFile('index.html', {
+    res.sendFile('auth.html', {
       root: 'client',
     });
   }
