@@ -1,0 +1,148 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.wrapper {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  background: transparent;
+  border: 2px solid rgba(80, 76, 76, 0.5);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: height 0.2s ease;
+}
+
+.wrapper.active {
+  height: 600px;
+}
+
+.wrapper .form-box-login,
+.wrapper .form-box-register {
+  width: 100%;
+  padding: 40px;
+}
+
+.wrapper .form-box-login {
+  transition: transform 0.18s ease;
+  transform: translateX(0);
+}
+/* class에 active를 추가하면 로그인 폼박스가 숨겨진다. */
+.wrapper.active .form-box-login {
+  transition: none;
+  transform: translateX(-500px);
+}
+
+.wrapper .form-box-register {
+  position: absolute;
+  transition: none;
+  transform: translateX(500px);
+}
+
+.wrapper.active .form-box-register {
+  transition: transform 0.18s ease;
+  transform: translateX(0);
+}
+
+.form-box-login h2,
+.form-box-register h2 {
+  font-size: 2em;
+  color: #6954c5;
+  text-align: center;
+}
+
+.radio-wrap div {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  justify-content: center;
+}
+
+.input-box {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  border-bottom: 2px solid #162938;
+  margin: 30px 0;
+}
+
+.input-box label {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+  font-size: 1em;
+  color: #162938;
+  font-weight: 500;
+  pointer-events: none;
+  transition: 0.1s;
+}
+
+.input-box input:focus ~ label {
+  top: -5px;
+}
+.input-box input:valid ~ label {
+  top: -5px;
+}
+
+.input-box input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1em;
+  color: #162938;
+  font-weight: 600;
+  padding: 0 35px 0 5px;
+}
+
+.btn-login,
+.btn-register {
+  width: 100%;
+  height: 40px;
+  background: #080808;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  color: #fff;
+  font-weight: 500;
+}
+
+.btn-login:hover,
+.btn-register:hover {
+  background: #6954c5;
+}
+
+.login-register {
+  font-size: 0.9em;
+  color: #162938;
+  text-align: center;
+  font-weight: 500;
+  margin: 25px 0 10px;
+}
+
+.login-register p a {
+  color: #162938;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-register p a:hover {
+  text-decoration: underline;
+}
