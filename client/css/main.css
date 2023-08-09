@@ -220,3 +220,10 @@ body {
 .comment-edit-content {
   display: none;
 }
+
+.btn-wrap.bottom {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  margin-left: 10px;
+}
