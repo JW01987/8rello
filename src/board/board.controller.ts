@@ -17,29 +17,28 @@ import {
 import { BoardService } from './board.service';
 import { CreateBoardDto, UpdateBoardDto } from './dto';
 import { AuthGuard } from '../auth/auth.guard';
+import { InvitationUser } from './dto/invitation-user.dto';
 
 @Controller('board')
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
   //-- 보드 생성 --//
-  // @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @Post()
   async createBoard(
     @Body() createBoardDto: CreateBoardDto,
     @Req() request: any,
   ) {
     const user = request.user;
-    // const user = { id: 1 };
     return await this.boardService.create(createBoardDto, user.id);
   }
 
   //-- 보드 전체보기 --//
-  // @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @Get()
   async getBoards(@Req() request: any) {
-    // const user = request.user;
-    const user = { id: 1 };
+    const user = request.user;
     return await this.boardService.getAll(user.id);
   }
 
@@ -51,15 +50,14 @@ export class BoardController {
   }
 
   //-- 보드 수정하기 --//
-  // @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @Patch('/:board_id')
   async updateBoard(
     @Param('board_id') board_id: number,
     @Body() updateBoardDto: UpdateBoardDto,
     @Req() request: any,
   ) {
-    // const user = request.user;
-    const user = { id: 1 };
+    const user = request.user;
     return await this.boardService.update(user.id, board_id, updateBoardDto);
   }
 
@@ -73,9 +71,10 @@ export class BoardController {
 
   //-- 보드 권한유저 추가 --//
   @UseGuards(AuthGuard)
-  @Post('/:board_id/invition')
-  async invition(@Param('board_id') board_id: number, @Req() request: any) {
+  @Post('/invitation')
+  async invitation(@Body() data: InvitationUser, @Req() request: any) {
     const user = request.user;
-    return await this.boardService.createBoardAuthority(user.id, board_id);
+    console.log(1, user);
+    return await this.boardService.createBoardAuthority(data, user);
   }
 }

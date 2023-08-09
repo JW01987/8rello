@@ -39,9 +39,12 @@
 
     <script defer src="/js/main.js"></script>
     <script defer src="/js/column.js"></script>
+    <script defer src="/js/create-board.js"></script>
     <script defer src="/js/board.js"></script>
     <script defer src="/js/card.js"></script>
     <script defer src="/js/create-board.js"></script>
+    <script defer src="/js/profile.js"></script>
+    <script defer src="/js/invite.js"></script>
   </head>
   <body class="menu-active">
     <!-- 모달 : 보드 생성 -->
@@ -140,33 +143,33 @@
           </div>
           <div class="modal-body">
             <div class="mb-3">
-              <label for="board-name" class="form-label">보드 이름</label>
+              <label for="editBoardName" class="form-label">보드 이름</label>
               <input
                 type="text"
                 class="form-control"
-                id="board-name"
+                id="editBoardName"
                 placeholder="보드 이름"
               />
             </div>
             <div class="mb-3">
-              <label for="board-introduction" class="form-label"
+              <label for="editBoardIntroduction" class="form-label"
                 >보드 설명</label
               >
               <input
                 type="text"
                 class="form-control"
-                id="board-introduction"
+                id="editBoardIntroduction"
                 placeholder="보드 설명"
               />
             </div>
             <div class="mb-3">
-              <label for="board-color" class="form-label"
+              <label for="editBoardColor" class="form-label"
                 >배경색으로 지정할 컬러값을 입력해주세요. (ex.#00000)</label
               >
               <input
                 type="text"
                 class="form-control"
-                id="board-color"
+                id="editBoardColor"
                 placeholder="#fffff"
               />
             </div>
@@ -216,13 +219,13 @@
           </div>
           <div class="modal-body">
             <div class="mb-3">
-              <label for="exampleFormControlInput1" class="form-label"
+              <label for="inviteUserId" class="form-label"
                 >초대할 유저의 아이디를 입력해주세요.</label
               >
               <input
                 type="text"
                 class="form-control"
-                id="exampleFormControlInput1"
+                id="inviteUserId"
                 placeholder="id"
               />
             </div>
@@ -235,7 +238,7 @@
             >
               닫기
             </button>
-            <button type="button" id="btnInvite" class="btn btn-primary">
+            <button type="button" id="userInviteBtn" class="btn btn-primary">
               초대하기
             </button>
           </div>
@@ -266,7 +269,7 @@
             ></button>
           </div>
           <div class="modal-body">
-            <div class="mb-3">
+            <!-- <div class="mb-3">
               <label for="exampleFormControlInput1" class="form-label"
                 >아이디</label
               >
@@ -288,7 +291,7 @@
                 id="exampleFormControlInput1"
                 placeholder="비밀번호"
               />
-            </div>
+            </div> -->
             <div class="mb-3">
               <label for="exampleFormControlInput1" class="form-label"
                 >닉네임</label
@@ -296,7 +299,7 @@
               <input
                 type="text"
                 class="form-control"
-                id="exampleFormControlInput1"
+                id="nickname-update"
                 placeholder="닉네임"
               />
             </div>
@@ -309,7 +312,11 @@
             >
               닫기
             </button>
-            <button type="button" id="btnInvite" class="btn btn-primary">
+            <button
+              type="button"
+              id="nickname-save-btn"
+              class="btn btn-primary"
+            >
               변경하기
             </button>
           </div>
@@ -685,9 +692,9 @@
 
       <!-- 본문 -->
       <div id="page-content-wrapper">
-        <div class="content-header mb-5">
+        <div class="content-header">
           <div class="flex-wrap">
-            <h1 class="mr-3">보드1</h1>
+            <h1></h1>
             <div class="btn-wrap bottom">
               <button
                 type="button"
@@ -699,6 +706,7 @@
               </button>
               <button
                 type="button"
+                id="btnDeleteBoard"
                 class="btn btn-outline-danger btn-sm"
                 data-bs-toggle="modal"
                 data-bs-target="#deleteBoard"
@@ -708,12 +716,8 @@
             </div>
           </div>
           <div class="flex-wrap gap-10">
-            <button
-              type="button"
-              class="btn btn-primary"
-              onclick="window.location.href='./auth.html'"
-            >
-              로그인
+            <button type="button" class="btn btn-primary" id="logout">
+              로그아웃
             </button>
             <button
               type="button"
@@ -728,6 +732,7 @@
               class="btn btn-primary"
               data-bs-toggle="modal"
               data-bs-target="#editUser"
+              id="profile-update"
             >
               내 정보 변경
             </button>

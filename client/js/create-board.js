@@ -18,5 +18,6 @@ function createBoard() {
     .then((data) => {
       alert(data.message);
     });
-  // .then(window.location.href('/'));
+
+  location.reload();
 }

@@ -6,6 +6,7 @@ import { BoardData } from './board.interface';
 import { BoardEntity } from '../entities/board.entity';
 import { User } from 'src/entities/user.entity';
 import { BoardAuthorityEntity } from '../entities/board_authority.entity';
+import { InvitationUser } from './dto/invitation-user.dto';
 
 @Injectable()
 export class BoardService {
@@ -63,7 +64,6 @@ export class BoardService {
         HttpStatus.NOT_FOUND,
       );
     }
-    console.log(targetBoards);
 
     return targetBoards;
   }
@@ -147,25 +147,24 @@ export class BoardService {
 
   //-- 보드 권한유저 추가하기 --//
   async createBoardAuthority(
-    user_id: number,
-    board_id: number,
+    data: InvitationUser,
+    user,
   ): Promise<{ message: string }> {
+    const { userId, boardId } = data;
     const targetBoard = await this.boardRepository.findOne({
-      where: { id: board_id },
+      where: { id: boardId },
     });
 
-    if (targetBoard.user_id !== user_id) {
+    if (targetBoard.user_id !== user.id) {
       throw new HttpException(
         { message: '권한 유저를 추가할 권한이 없습니다.' },
         HttpStatus.NOT_FOUND,
       );
     }
-
     const newBoardAuthority = this.boardAuthorityRepository.create({
-      user_id,
-      board_id,
+      user_id: userId,
+      board_id: boardId,
     });
-
     try {
       await this.boardAuthorityRepository.save(newBoardAuthority);
       return { message: '보드 권한유저 추가에 성공했습니다.' };
