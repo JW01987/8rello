@@ -33,6 +33,7 @@
     <script defer src="/js/main.js"></script>
     <script defer src="/js/column.js"></script>
     <script defer src="/js/board.js"></script>
+    <script defer src="/js/profile.js"></script>
   </head>
   <body class="menu-active">
     <!-- 모달 : 보드 생성 -->
@@ -257,7 +258,7 @@
             ></button>
           </div>
           <div class="modal-body">
-            <div class="mb-3">
+            <!-- <div class="mb-3">
               <label for="exampleFormControlInput1" class="form-label"
                 >아이디</label
               >
@@ -279,7 +280,7 @@
                 id="exampleFormControlInput1"
                 placeholder="비밀번호"
               />
-            </div>
+            </div> -->
             <div class="mb-3">
               <label for="exampleFormControlInput1" class="form-label"
                 >닉네임</label
@@ -287,7 +288,7 @@
               <input
                 type="text"
                 class="form-control"
-                id="exampleFormControlInput1"
+                id="nickname-update"
                 placeholder="닉네임"
               />
             </div>
@@ -300,7 +301,11 @@
             >
               닫기
             </button>
-            <button type="button" id="btnInvite" class="btn btn-primary">
+            <button
+              type="button"
+              id="nickname-save-btn"
+              class="btn btn-primary"
+            >
               변경하기
             </button>
           </div>
@@ -720,6 +725,7 @@
               class="btn btn-primary"
               data-bs-toggle="modal"
               data-bs-target="#editUser"
+              id="profile-update"
             >
               내 정보 변경
             </button>
