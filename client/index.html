@@ -32,6 +32,7 @@
     ></script>
     <script defer src="/js/main.js"></script>
     <script defer src="/js/column.js"></script>
+    <script defer src="/js/create-board.js"></script>
     <script defer src="/js/board.js"></script>
   </head>
   <body class="menu-active">
@@ -131,33 +132,33 @@
           </div>
           <div class="modal-body">
             <div class="mb-3">
-              <label for="board-name" class="form-label">보드 이름</label>
+              <label for="editBoardName" class="form-label">보드 이름</label>
               <input
                 type="text"
                 class="form-control"
-                id="board-name"
+                id="editBoardName"
                 placeholder="보드 이름"
               />
             </div>
             <div class="mb-3">
-              <label for="board-introduction" class="form-label"
+              <label for="editBoardIntroduction" class="form-label"
                 >보드 설명</label
               >
               <input
                 type="text"
                 class="form-control"
-                id="board-introduction"
+                id="editBoardIntroduction"
                 placeholder="보드 설명"
               />
             </div>
             <div class="mb-3">
-              <label for="board-color" class="form-label"
+              <label for="editBoardColor" class="form-label"
                 >배경색으로 지정할 컬러값을 입력해주세요. (ex.#00000)</label
               >
               <input
                 type="text"
                 class="form-control"
-                id="board-color"
+                id="editBoardColor"
                 placeholder="#fffff"
               />
             </div>
@@ -679,7 +680,7 @@
       <div id="page-content-wrapper">
         <div class="content-header mb-5">
           <div class="flex-wrap">
-            <h1 class="mr-3">보드1</h1>
+            <h1>보드1</h1>
             <div class="btn-wrap bottom">
               <button
                 type="button"

@@ -56,6 +56,9 @@
 }
 
 /* add */
+h1 {
+  margin-right: 5px;
+}
 .flex-wrap {
   display: flex;
 }

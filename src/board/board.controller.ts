@@ -23,23 +23,21 @@ export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
   //-- 보드 생성 --//
-  // @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @Post()
   async createBoard(
     @Body() createBoardDto: CreateBoardDto,
     @Req() request: any,
   ) {
     const user = request.user;
-    // const user = { id: 1 };
     return await this.boardService.create(createBoardDto, user.id);
   }
 
   //-- 보드 전체보기 --//
-  // @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @Get()
   async getBoards(@Req() request: any) {
-    // const user = request.user;
-    const user = { id: 1 };
+    const user = request.user;
     return await this.boardService.getAll(user.id);
   }
 
@@ -51,15 +49,14 @@ export class BoardController {
   }
 
   //-- 보드 수정하기 --//
-  // @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @Patch('/:board_id')
   async updateBoard(
     @Param('board_id') board_id: number,
     @Body() updateBoardDto: UpdateBoardDto,
     @Req() request: any,
   ) {
-    // const user = request.user;
-    const user = { id: 1 };
+    const user = request.user;
     return await this.boardService.update(user.id, board_id, updateBoardDto);
   }
 
