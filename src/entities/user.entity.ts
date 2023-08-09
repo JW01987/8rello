@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -8,7 +9,8 @@ import {
 } from 'typeorm';
 import { Card_comment } from './card-comment.entity';
 import { CardMember } from './card-member.entitiy';
-
+import { BoardEntity } from './board.entity';
+import { BoardAuthorityEntity } from './board_authority.entity';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -29,11 +31,21 @@ export class User {
   @UpdateDateColumn({ type: 'timestamp' })
   update_at: Date;
 
+  @DeleteDateColumn()
+  deletedAt: Date | null;
+
   @OneToMany(() => Card_comment, (card_comments) => card_comments.user)
   card_comments: Card_comment;
 
   // @OneToMany(() => CardMember, (cardMember) => cardMember.user)
   // cardMembers: CardMember;
 
-  //TODO: @OneToMany() 로 연관관계 설정
+  // @OneToMany(() => BoardEntity, (board) => board.user)
+  // boards: BoardEntity[];
+
+  // @OneToMany(
+  //   () => BoardAuthorityEntity,
+  //   (boardAuthority) => boardAuthority.user,
+  // )
+  // boardAuthorities: BoardAuthorityEntity[];
 }
