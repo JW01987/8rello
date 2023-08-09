@@ -82,9 +82,8 @@ function populateBoardDetail(boardId) {
     loadBoardDetail(boardId)
       .then((boardDetail) => {
         boardNameElement.innerText = boardDetail.name;
-        containerFluidElement.style.backgroundColor = boardDetail.bg_color;
-        console.log(boardDetail);
-        applyBoardDetailStyles(containerFluidElement, boardDetail);
+        // 배경색 변경
+        containerFluidElement.style.backgroundColor = `${boardDetail.bg_color}`;
       })
       .catch((error) => {
         console.error('Error populating board detail:', error);
