@@ -31,6 +31,7 @@
       crossorigin="anonymous"
     ></script>
     <script defer src="./js/main.js"></script>
+    <script defer src="./js/column.js"></script>
   </head>
   <body class="menu-active">
     <!-- 모달 : 보드 생성 -->
@@ -533,6 +534,53 @@
       </div>
     </div>
 
+    <!-- 모달 칼럼 추가 -->
+    <div
+      class="modal fade"
+      id="addCol"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">칼럼 추가하기</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="colName" class="form-label">칼럼 이름</label>
+              <input
+                type="colName"
+                class="form-control"
+                id="colName"
+                placeholder="칼럼 이름"
+              />
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                닫기
+              </button>
+              <button type="button" id="btnAddCol" class="btn btn-primary">
+                추가하기
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div id="page-wrapper">
       <!-- 사이드바 -->
       <div id="sidebar-wrapper">
@@ -590,12 +638,22 @@
         </div>
         <div class="container-fluid">
           <div class="content-wrap">
-            <div class="btn-wrap btn-right mb-3">
-              <span style="margin-right: 5px"
-                >컬럼 옮기기(✔️체크 후 진행) :</span
+            <div class="btn-wrap btn-right mb-3 justify-content-between">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#addCol"
               >
-              <button style="margin-right: 15px">⬅️</button>
-              <button>➡️</button>
+                칼럼 +
+              </button>
+              <div>
+                <span style="margin-right: 5px"
+                  >컬럼 옮기기(✔️체크 후 진행) :</span
+                >
+                <button style="margin-right: 15px">⬅️</button>
+                <button>➡️</button>
+              </div>
             </div>
             <ul class="column-list">
               <li class="column-item" data-card-id="1">

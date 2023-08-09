@@ -24,7 +24,6 @@ export class ColumnService {
       .where('column.board = :boardId', { boardId })
       .orderBy('column.position', 'ASC')
       .getMany();
-    console.log('found', found);
     return found;
   }
 
@@ -37,7 +36,7 @@ export class ColumnService {
   async lastPosition() {
     return await this.columnsRepository
       .createQueryBuilder('column')
-      .orderBy('column.created_at', 'DESC')
+      .orderBy('column.position', 'DESC')
       .select(['column.position'])
       .take(1)
       .getOne();
@@ -56,7 +55,7 @@ export class ColumnService {
       return { status: true, message: '칼럼 생성에 성공하였습니다' };
     }
 
-    const lastPosition = (await this.lastPosition()).position;
+    const lastPosition = await (await this.lastPosition()).position;
     const create = this.columnsRepository.create({
       name: data.name,
       position: lastPosition + 1000,
