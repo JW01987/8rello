@@ -24,7 +24,7 @@ const getAllCol = async () => {
 const makeCol = async (data) => {
   colList.innerHTML += '';
   for await (let col of data) {
-    const cardData = await (await fetch(`cards?column_id=${col.id}`)).json();
+    const cardData = await (await fetch(`/cards?column_id=${col.id}`)).json();
     let cardTemp = '';
     for (let card of cardData.results) {
       cardTemp += `<button
@@ -32,7 +32,7 @@ const makeCol = async (data) => {
       class="btn-sm card-item mb-2"
       data-bs-toggle="modal"
       data-bs-target="#cardDetail"
-    ><span class='card-title'>${card.card_name}</span>      </button>`;
+    ><span class='card-title'>${card.card_name}</span> </button>`;
     }
     const tempHtml =
       `<li class="column-item" data-col-id="${col.id}">
@@ -66,7 +66,7 @@ const makeCol = async (data) => {
           누르면 숑나올곳 누르면 숑나올곳 누르면 숑</span
         >
       </button>
-      ` +
+  ` +
       cardTemp +
       `
     </div>
