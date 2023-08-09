@@ -16,8 +16,8 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./css/reset.css" />
-    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="/css/reset.css" />
+    <link rel="stylesheet" href="/css/main.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
@@ -30,8 +30,9 @@
       integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
       crossorigin="anonymous"
     ></script>
-    <script defer src="./js/main.js"></script>
-    <script defer src="./js/column.js"></script>
+    <script defer src="/js/main.js"></script>
+    <script defer src="/js/column.js"></script>
+    <script defer src="/js/board.js"></script>
   </head>
   <body class="menu-active">
     <!-- 모달 : 보드 생성 -->
@@ -83,7 +84,7 @@
                 type="text"
                 class="form-control"
                 id="board-color"
-                placeholder="#ffffff"
+                placeholder="#fffff"
               />
             </div>
           </div>
@@ -102,6 +103,80 @@
               onclick="createBoard()"
             >
               생성하기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 모달 : 보드 수정 -->
+    <div
+      class="modal fade"
+      id="editBoard"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">보드 수정하기</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="board-name" class="form-label">보드 이름</label>
+              <input
+                type="text"
+                class="form-control"
+                id="board-name"
+                placeholder="보드 이름"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="board-introduction" class="form-label"
+                >보드 설명</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="board-introduction"
+                placeholder="보드 설명"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="board-color" class="form-label"
+                >배경색으로 지정할 컬러값을 입력해주세요. (ex.#00000)</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="board-color"
+                placeholder="#fffff"
+              />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              닫기
+            </button>
+            <button
+              type="button"
+              id="btnEditBoardComplete"
+              class="btn btn-primary"
+              onclick="updateBoard()"
+            >
+              수정하기
             </button>
           </div>
         </div>
@@ -596,20 +671,7 @@
             보드 +
           </button>
         </div>
-        <ul class="sidebar-nav">
-          <li class="sidebar-brand">
-            <a href="/">킹갓조원의 보드</a>
-          </li>
-          <li><a href="#">보드 1</a></li>
-          <li><a href="#">보드 2</a></li>
-          <li><a href="#">보드 3</a></li>
-          <li><a href="#">보드 4</a></li>
-          <li><a href="#">보드 5</a></li>
-          <li><a href="#">보드 6</a></li>
-          <li><a href="#">보드 7</a></li>
-          <li><a href="#">보드 8</a></li>
-          <li><a href="#">보드 9</a></li>
-        </ul>
+        <ul class="sidebar-nav" id="boardList"></ul>
       </div>
       <!-- /사이드바 -->
 
@@ -618,6 +680,24 @@
         <div class="content-header mb-5">
           <div class="flex-wrap">
             <h1 class="mr-3">보드1</h1>
+            <div class="btn-wrap bottom">
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#editBoard"
+              >
+                보드 수정
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteBoard"
+              >
+                보드 삭제
+              </button>
+            </div>
           </div>
           <div class="flex-wrap gap-10">
             <button
@@ -664,102 +744,7 @@
                 <button>➡️</button>
               </div>
             </div>
-            <ul class="column-list">
-              <li class="column-item" data-card-id="1">
-                <!-- 아래 버튼 누르면 active , 좌우로 이동하게 합시다 -->
-                <button class="btn-column-check">✔️</button>
-                <h3 class="mb-1">글자는 짧게</h3>
-                <div class="btn-right mb-3">
-                  <button
-                    type="button"
-                    class="btn btn-secondary btn-sm"
-                    data-bs-toggle="modal"
-                    data-bs-target="#createCard"
-                  >
-                    카드 +
-                  </button>
-                </div>
-                <div class="card-list">
-                  <button
-                    type="button"
-                    class="btn-sm card-item mb-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#cardDetail"
-                  >
-                    <span class="card-title"
-                      >간략한.. 카드 제목나올곳 누르면 숑나올곳 누르면 숑나올곳
-                      누르면 숑나올곳 누르면 숑나올곳 누르면 숑</span
-                    >
-                  </button>
-                  <button
-                    type="button"
-                    class="btn-sm card-item mb-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#cardDetail"
-                  >
-                    <span class="card-title"
-                      >간략한.. 카드 제목나올곳 누르면 숑나올곳 누르면 숑나올곳
-                      누르면 숑나올곳 누르면 숑나올곳 누르면 숑</span
-                    >
-                  </button>
-                  <button
-                    type="button"
-                    class="btn-sm card-item mb-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#cardDetail"
-                  >
-                    <span class="card-title"
-                      >간략한.. 카드 제목나올곳 누르면 숑나올곳 누르면 숑나올곳
-                      누르면 숑나올곳 누르면 숑나올곳 누르면 숑</span
-                    >
-                  </button>
-                  <button
-                    type="button"
-                    class="btn-sm card-item mb-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#cardDetail"
-                  >
-                    <span class="card-title"
-                      >간략한.. 카드 제목나올곳 누르면 숑나올곳 누르면 숑나올곳
-                      누르면 숑나올곳 누르면 숑나올곳 누르면 숑</span
-                    >
-                  </button>
-                  <button
-                    type="button"
-                    class="btn-sm card-item mb-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#cardDetail"
-                  >
-                    <span class="card-title"
-                      >간략한.. 카드 제목나올곳 누르면 숑나올곳 누르면 숑나올곳
-                      누르면 숑나올곳 누르면 숑나올곳 누르면 숑</span
-                    >
-                  </button>
-                  <button
-                    type="button"
-                    class="btn-sm card-item mb-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#cardDetail"
-                  >
-                    <span class="card-title"
-                      >간략한.. 카드 제목나올곳 누르면 숑나올곳 누르면 숑나올곳
-                      누르면 숑나올곳 누르면 숑나올곳 누르면 숑</span
-                    >
-                  </button>
-                  <button
-                    type="button"
-                    class="btn-sm card-item mb-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#cardDetail"
-                  >
-                    <span class="card-title"
-                      >간략한.. 카드 제목나올곳 누르면 숑나올곳 누르면 숑나올곳
-                      누르면 숑나올곳 누르면 숑나올곳 누르면 숑</span
-                    >
-                  </button>
-                </div>
-              </li>
-            </ul>
+            <ul class="column-list"></ul>
           </div>
         </div>
       </div>

@@ -9,11 +9,11 @@ window.onload = () => {
   });
 };
 
+console.log(12, id);
 //컬럼 불러오기
 const getAllCol = async () => {
   //보드 아이디 필요
-  const boardId = 22;
-  const api = await fetch(`/column/${boardId}`, {
+  const api = await fetch(`/column/${id}`, {
     method: 'GET',
   });
   const data = await api.json();
@@ -24,7 +24,7 @@ const getAllCol = async () => {
 const makeCol = async (data) => {
   colList.innerHTML += '';
   data.forEach((col) => {
-    const tempHtml = `<li class="column-item" data-card-id="${col.id}">
+    const tempHtml = `<li class="column-item" draggable='true' data-card-id="${col.id}">
     <!-- 아래 버튼 누르면 active , 좌우로 이동하게 합시다 -->
     <button class="btn-column-check">✔️</button>
     <h3 class="mb-2">${col.name}</h3>
@@ -38,6 +38,7 @@ const makeCol = async (data) => {
         class="btn btn-secondary btn-sm"
         data-bs-toggle="modal"
         data-bs-target="#createCard"
+        data-col-id="${col.id}"
       >
         카드 +
       </button>
@@ -70,7 +71,6 @@ const makeCol = async (data) => {
 //컬럼 추가
 const addCol = async () => {
   //보드 아이디 필요
-  const boardId = 22;
   const response = await fetch('/column', {
     method: 'POST',
     headers: {
@@ -78,7 +78,7 @@ const addCol = async () => {
     },
     body: JSON.stringify({
       name: colName.value,
-      boardId: boardId,
+      boardId: id,
     }),
   });
   const { status } = response;
@@ -92,8 +92,8 @@ const addCol = async () => {
 
 //칼럼 삭제
 const delCol = async (e) => {
-  const id = e.target.dataset.colId;
-  const response = await fetch(`/column/${id}`, {
+  const colId = e.target.dataset.colId;
+  const response = await fetch(`/column/${colId}`, {
     method: 'DELETE',
   });
   const { status } = response;
@@ -104,3 +104,43 @@ const delCol = async (e) => {
     return window.location.reload();
   }
 };
+
+//컬럼 이동하기
+let picked = null;
+let pickedIndex = null;
+colList.addEventListener('dragstart', (e) => {
+  const target = e.target;
+  picked = target;
+  pickedIndex = [...target.parentNode.children].indexOf(target);
+});
+colList.addEventListener('dragover', (e) => {
+  e.preventDefault();
+});
+colList.addEventListener('drop', async (e) => {
+  const target = e.target;
+  const index = [...target.parentNode.children].indexOf(target);
+  index > pickedIndex ? target.after(picked) : target.before(picked);
+
+  const colId = picked.getAttribute('data-card-id');
+  const prev = picked.previousSibling?.getAttribute('data-card-id') || 0;
+  const next = picked.nextSibling?.getAttribute('data-card-id') || 0;
+
+  const response = await fetch('/column/index', {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      prev,
+      next,
+      id: colId,
+    }),
+  });
+  const { status } = response;
+  const { message } = await response.json();
+
+  if (status) {
+    alert(message);
+    return window.location.reload();
+  }
+});
