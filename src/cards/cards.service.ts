@@ -120,6 +120,10 @@ export class CardsService {
       // await this.cardRepository.update({id:card_id}, {column:column_id})
       await this.cardRepository.save(targetCard);
       return targetCard;
+    } else if (!nextPosition) {
+      targetCard.position = prevPosition + 1000;
+      await this.cardRepository.save(targetCard);
+      return targetCard;
     } else {
       targetCard.position = Math.ceil((prevPosition + nextPosition) / 2);
       await this.cardRepository.save(targetCard);

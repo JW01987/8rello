@@ -32,6 +32,7 @@ const makeCol = async (data) => {
       class="btn-sm card-item mb-2"
       data-bs-toggle="modal"
       data-bs-target="#cardDetail"
+      data-card-id="${card.id}"
     ><span class='card-title'>${card.card_name}</span> </button>`;
     }
     const tempHtml =
