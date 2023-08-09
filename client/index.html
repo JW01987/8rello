@@ -34,7 +34,8 @@
     <script defer src="/js/column.js"></script>
     <script defer src="/js/create-board.js"></script>
     <script defer src="/js/board.js"></script>
-    <script defer src="/js/profile.js"></script>
+    <script defer src="/js/logout.js"></script>
+    <!-- <script defer src="/js/auth.js"></script> -->
   </head>
   <body class="menu-active">
     <!-- 모달 : 보드 생성 -->
@@ -707,12 +708,8 @@
             </div>
           </div>
           <div class="flex-wrap gap-10">
-            <button
-              type="button"
-              class="btn btn-primary"
-              onclick="window.location.href='./auth.html'"
-            >
-              로그인
+            <button type="button" class="btn btn-primary" id="logout">
+              로그아웃
             </button>
             <button
               type="button"
