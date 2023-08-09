@@ -20,7 +20,6 @@ export class CardsService {
     private commentRepository: Repository<Card_comment>,
   ) {}
 
-  // column_id 추가 필요
   public async createCard(createCardDto: CreateCardDto, column_id: number) {
     const { card_name, description, card_color, deadline } = createCardDto;
     const position = await this.getLastPosition();

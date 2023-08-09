@@ -1,0 +1,24 @@
+function createBoard() {
+  const name = document.querySelector('#board-name').value;
+  const bg_color = document.querySelector('#board-color').value;
+  const introduction = document.querySelector('#board-introduction').value;
+
+  console.log(name, bg_color, introduction);
+
+  fetch(`/board`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name,
+      bg_color,
+      introduction,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      alert(data.message);
+    });
+  // .then(window.location.href('/'));
+}

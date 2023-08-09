@@ -55,35 +55,33 @@
           </div>
           <div class="modal-body">
             <div class="mb-3">
-              <label for="exampleFormControlInput1" class="form-label"
-                >보드 이름</label
-              >
+              <label for="board-name" class="form-label">보드 이름</label>
               <input
                 type="text"
                 class="form-control"
-                id="exampleFormControlInput1"
+                id="board-name"
                 placeholder="보드 이름"
               />
             </div>
             <div class="mb-3">
-              <label for="exampleFormControlInput1" class="form-label"
+              <label for="board-introduction" class="form-label"
                 >보드 설명</label
               >
               <input
                 type="text"
                 class="form-control"
-                id="exampleFormControlInput1"
+                id="board-introduction"
                 placeholder="보드 설명"
               />
             </div>
             <div class="mb-3">
-              <label for="exampleFormControlInput1" class="form-label"
+              <label for="board-color" class="form-label"
                 >배경색으로 지정할 컬러값을 입력해주세요. (ex.#00000)</label
               >
               <input
                 type="text"
                 class="form-control"
-                id="exampleFormControlInput1"
+                id="board-color"
                 placeholder="#ffffff"
               />
             </div>
@@ -96,7 +94,12 @@
             >
               닫기
             </button>
-            <button type="button" id="btnInvite" class="btn btn-primary">
+            <button
+              type="button"
+              id="btnInvite"
+              class="btn btn-primary"
+              onclick="createBoard()"
+            >
               생성하기
             </button>
           </div>
@@ -251,33 +254,27 @@
           </div>
           <div class="modal-body">
             <div class="mb-3">
-              <label for="exampleFormControlInput1" class="form-label"
-                >카드 이름</label
-              >
+              <label for="card-name" class="form-label">카드 이름</label>
               <input
                 type="text"
                 class="form-control"
-                id="exampleFormControlInput1"
+                id="card-name"
                 placeholder="카드 이름"
               />
             </div>
             <div class="mb-3">
-              <label for="exampleFormControlInput1" class="form-label"
-                >카드 내용</label
-              >
+              <label for="card-description" class="form-label">카드 내용</label>
               <input
                 type="text"
                 class="form-control"
-                id="exampleFormControlInput1"
+                id="card-description"
                 placeholder="카드 내용"
               />
             </div>
             <div class="mb-3">
-              <label for="exampleFormControlInput1" class="form-label"
-                >마감일</label
-              >
+              <label for="date" class="form-label">마감일</label>
               <div>
-                <input type="date" id="date" />
+                <input type="datetime-local" id="date" class="deadline" />
               </div>
             </div>
           </div>
@@ -289,7 +286,12 @@
             >
               닫기
             </button>
-            <button type="button" id="btnInvite" class="btn btn-primary">
+            <button
+              type="button"
+              id="btnInvite"
+              class="btn btn-primary"
+              onclick="createCard()"
+            >
               생성하기
             </button>
           </div>
@@ -793,4 +795,6 @@
       <!-- /본문 -->
     </div>
   </body>
+  <script src="./js/create-card.js"></script>
+  <script src="./js/create-board.js"></script>
 </html>

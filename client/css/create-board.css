@@ -1,0 +1,21 @@
+main {
+  text-align: center;
+  width: 210px;
+  margin: auto auto;
+}
+
+.board-inputs {
+  text-align: center;
+}
+.board-inputs > div {
+  text-align: left;
+}
+
+#board-name,
+#board-color,
+#board-introduction {
+  margin-left: auto;
+  margin-right: auto;
+  width: 200px;
+  padding: 0;
+}

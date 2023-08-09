@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>카드 생성</title>
+    <link href="./css/create-card.css" rel="stylesheet" type="text/css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <main>
+      <h1>카드 생성</h1>
+      <div class="card-inputs">
+        <div>
+          <label>Title : </label><br />
+          <!-- <input id="card-name" placeholder="카드 이름을 입력해 주세용" /><br /> -->
+          <input
+            id="card-name"
+            class="form-control"
+            type="text"
+            placeholder="Default input"
+            aria-label="default input example"
+          />
+
+          <label>Description : </label><br />
+          <input
+            id="card-description"
+            placeholder="내용을 입력해 주세용"
+          /><br />
+          <input
+            id="card-name"
+            class="form-control"
+            type="text"
+            placeholder="Default input"
+            aria-label="default input example"
+          />
+          <label>Deadline : </label><br />
+          <input id="card-deadline" type="datetime-local" />
+          <br /><br />
+        </div>
+        <button id="create-card-btn" onclick="createCard()">카드 생성</button>
+      </div>
+    </main>
+  </body>
+  <script src="./js/create-card.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"
+  ></script>
+</html>
