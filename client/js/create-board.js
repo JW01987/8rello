@@ -3,8 +3,6 @@ function createBoard() {
   const bg_color = document.querySelector('#board-color').value;
   const introduction = document.querySelector('#board-introduction').value;
 
-  console.log(name, bg_color, introduction);
-
   fetch(`/board`, {
     method: 'POST',
     headers: {

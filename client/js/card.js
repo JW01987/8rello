@@ -2,14 +2,11 @@ function createCard() {
   const card_name = document.querySelector('#card-name').value;
   const description = document.querySelector('#card-description').value;
   const deadline = document.querySelector('#date').value;
-  console.log(
-    'cardName',
-    card_name,
-    'description',
-    description,
-    'deadline',
-    deadline,
-  );
+  if (!card_name || !description || !deadline) {
+    alert('모든 값을 입력해주세요');
+    return;
+  }
+  const column_id = 3;
   fetch(`/cards/create?column_id=${column_id}`, {
     method: 'POST',
     headers: {
@@ -24,6 +21,6 @@ function createCard() {
     .then((res) => res.json())
     .then((data) => {
       alert(data.message);
-    });
-  // .then(window.location.href('/'));
+    })
+    .then(window.location.reload());
 }
