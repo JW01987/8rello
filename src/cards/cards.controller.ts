@@ -29,7 +29,6 @@ export class CardsController {
     @Res() res: Response,
   ) {
     const { column_id } = Query;
-    console.log(column_id);
     const { result, message } = await this.cardsService.createCard(
       createCardDto,
       column_id,
@@ -37,7 +36,20 @@ export class CardsController {
     return res.json({ message, result });
   }
 
+  //컬럼별 카드 불러오기
   @Get()
+  public async showColumnCard(
+    @Query('column_id') column_id: number,
+    @Res() res: Response,
+  ) {
+    const { results, message } = await this.cardsService.showColumnCard(
+      column_id,
+    );
+    return res.json({ message, results });
+  }
+
+  // 카드 상세 정보
+  @Get('detail')
   public async findCardDetail(@Query() Query) {
     const { card_id } = Query;
 
@@ -46,7 +58,7 @@ export class CardsController {
   }
 
   //카드 내용 수정
-  @Patch()
+  @Patch('detail')
   public async updateCard(
     @Query() Query,
     @Body() updateCardDto: UpdateCardDto,

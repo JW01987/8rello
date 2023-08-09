@@ -23,8 +23,22 @@ const getAllCol = async () => {
 //칼럼 생성
 const makeCol = async (data) => {
   colList.innerHTML += '';
-  data.forEach((col) => {
-    const tempHtml = `<li class="column-item" data-card-id="${col.id}">
+  for await (let col of data) {
+    // fetch(`/cards?column_id=${col.id}`)
+    //   .then((res) => res.json())
+    //   .then((cardData) => console.log(cardData));
+    const cardData = await (await fetch(`cards?column_id=${col.id}`)).json();
+    let cardTemp = '';
+    for (let card of cardData.results) {
+      cardTemp += `<button
+      type="button"
+      class="btn-sm card-item mb-2"
+      data-bs-toggle="modal"
+      data-bs-target="#cardDetail"
+    ><span class='card-title'>${card.card_name}</span>      </button>`;
+    }
+    const tempHtml =
+      `<li class="column-item" data-col-id="${col.id}">
     <!-- 아래 버튼 누르면 active , 좌우로 이동하게 합시다 -->
     <button class="btn-column-check">✔️</button>
     <h3 class="mb-2">${col.name}</h3>
@@ -54,10 +68,13 @@ const makeCol = async (data) => {
           누르면 숑나올곳 누르면 숑나올곳 누르면 숑</span
         >
       </button>
+      ` +
+      cardTemp +
+      `
     </div>
     </li>`;
     colList.innerHTML += tempHtml;
-  });
+  }
   //칼럼 삭제 이벤트
   const delColBtnList = document.querySelectorAll('.delColBtn');
   delColBtnList.forEach((btn) => {
