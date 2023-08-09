@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -29,6 +30,9 @@ export class User {
 
   @UpdateDateColumn({ type: 'timestamp' })
   update_at: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date | null;
 
   @OneToMany(() => Card_comment, (card_comments) => card_comments.user)
   card_comments: Card_comment;
