@@ -16,8 +16,8 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./css/reset.css" />
-    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="/css/reset.css" />
+    <link rel="stylesheet" href="/css/main.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
@@ -30,8 +30,9 @@
       integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
       crossorigin="anonymous"
     ></script>
-    <script defer src="./js/main.js"></script>
-    <script defer src="./js/column.js"></script>
+    <script defer src="/js/main.js"></script>
+    <script defer src="/js/column.js"></script>
+    <script defer src="/js/board.js"></script>
   </head>
   <body class="menu-active">
     <!-- 모달 : 보드 생성 -->
@@ -596,20 +597,7 @@
             보드 +
           </button>
         </div>
-        <ul class="sidebar-nav">
-          <li class="sidebar-brand">
-            <a href="/">킹갓조원의 보드</a>
-          </li>
-          <li><a href="#">보드 1</a></li>
-          <li><a href="#">보드 2</a></li>
-          <li><a href="#">보드 3</a></li>
-          <li><a href="#">보드 4</a></li>
-          <li><a href="#">보드 5</a></li>
-          <li><a href="#">보드 6</a></li>
-          <li><a href="#">보드 7</a></li>
-          <li><a href="#">보드 8</a></li>
-          <li><a href="#">보드 9</a></li>
-        </ul>
+        <ul class="sidebar-nav" id="boardList"></ul>
       </div>
       <!-- /사이드바 -->
 
@@ -623,7 +611,7 @@
                 type="button"
                 class="btn btn-outline-primary btn-sm"
                 data-bs-toggle="modal"
-                data-bs-target="#inviteUser"
+                data-bs-target="#editBoard"
               >
                 보드 수정
               </button>
@@ -631,7 +619,7 @@
                 type="button"
                 class="btn btn-outline-danger btn-sm"
                 data-bs-toggle="modal"
-                data-bs-target="#inviteUser"
+                data-bs-target="#deleteBoard"
               >
                 보드 삭제
               </button>
