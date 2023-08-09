@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Columns } from './column.entity';
 import { Card_comment } from './card-comment.entity';
+import { CardMember } from './card-member.entitiy';
 
 @Entity({ name: 'cards' })
 export class Card {
@@ -38,4 +39,7 @@ export class Card {
 
   @OneToMany(() => Card_comment, (card_comments) => card_comments.card)
   card_comments: Card_comment;
+
+  // @OneToMany(() => CardMember, (cardMember) => cardMember.card)
+  // cardMember: CardMember;
 }
