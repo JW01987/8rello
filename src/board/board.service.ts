@@ -154,7 +154,7 @@ export class BoardService {
     const targetBoard = await this.boardRepository.findOne({
       where: { id: boardId },
     });
-    console.log(targetBoard, user);
+
     if (targetBoard.user_id !== user.id) {
       throw new HttpException(
         { message: '권한 유저를 추가할 권한이 없습니다.' },

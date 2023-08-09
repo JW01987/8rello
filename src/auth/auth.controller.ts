@@ -29,4 +29,11 @@ export class AuthController {
     res.cookie('access_token', result.access_token, { httpOnly: true });
     return res.status(HttpStatus.OK).json(result);
   }
+
+  @UseGuards(AuthGuard)
+  @Post('logout')
+  async logout(@Res({ passthrough: true }) response: Response) {
+    response.clearCookie('access_token');
+    return response.status(200).json({ message: '로그아웃 성공' });
+  }
 }

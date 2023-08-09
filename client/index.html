@@ -686,7 +686,7 @@
       <div id="page-content-wrapper">
         <div class="content-header mb-5">
           <div class="flex-wrap">
-            <h1>보드1</h1>
+            <h1></h1>
             <div class="btn-wrap bottom">
               <button
                 type="button"
@@ -698,6 +698,7 @@
               </button>
               <button
                 type="button"
+                id="btnDeleteBoard"
                 class="btn btn-outline-danger btn-sm"
                 data-bs-toggle="modal"
                 data-bs-target="#deleteBoard"
@@ -707,12 +708,8 @@
             </div>
           </div>
           <div class="flex-wrap gap-10">
-            <button
-              type="button"
-              class="btn btn-primary"
-              onclick="window.location.href='./auth.html'"
-            >
-              로그인
+            <button type="button" class="btn btn-primary" id="logout">
+              로그아웃
             </button>
             <button
               type="button"
