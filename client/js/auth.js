@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const data = await response.json();
       // 로그인 성공시
       if (response.ok) {
-        window.location.href = '/';
+        window.location.href = '/boards/1';
       } else {
         console.error(data.message);
         alert(data.message);
