@@ -8,7 +8,8 @@ import {
 } from 'typeorm';
 import { Card_comment } from './card-comment.entity';
 import { CardMember } from './card-member.entitiy';
-
+import { BoardEntity } from './board.entity';
+import { BoardAuthorityEntity } from './board_authority.entity';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -35,5 +36,12 @@ export class User {
   // @OneToMany(() => CardMember, (cardMember) => cardMember.user)
   // cardMembers: CardMember;
 
-  //TODO: @OneToMany() 로 연관관계 설정
+  // @OneToMany(() => BoardEntity, (board) => board.user)
+  // boards: BoardEntity[];
+
+  // @OneToMany(
+  //   () => BoardAuthorityEntity,
+  //   (boardAuthority) => boardAuthority.user,
+  // )
+  // boardAuthorities: BoardAuthorityEntity[];
 }
