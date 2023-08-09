@@ -35,7 +35,7 @@ export class BoardEntity {
   create_at: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
-  upate_at: Date;
+  update_at: Date;
 
   // 컬러코드 유효성 검사
   @BeforeInsert()
