@@ -1,0 +1,21 @@
+main {
+  text-align: center;
+  width: 210px;
+  margin: auto auto;
+}
+
+.card-inputs {
+  text-align: center;
+}
+.card-inputs > div {
+  text-align: left;
+}
+/* 
+#card-name,
+#card-description,
+#card-deadline {
+  margin-left: auto;
+  margin-right: auto;
+  width: 200px;
+  padding: 0;
+} */

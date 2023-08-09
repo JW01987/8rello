@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./css/create-board.css" rel="stylesheet" type="text/css" />
+    <title>보드 생성</title>
+  </head>
+  <body>
+    <main>
+      <h1>보드 생성</h1>
+      <div class="board-inputs">
+        <div>
+          <label>Title : </label><br />
+          <input
+            id="board-name"
+            placeholder="카드 이름을 입력해 주세용"
+          /><br />
+          <label>Color : </label><br />
+          <input id="board-color" placeholder="내용을 입력해 주세용" /><br />
+          <label>Introduction : </label><br />
+          <input id="board-introduction" placeholder="소개를 입력해주세용" />
+          <br /><br />
+        </div>
+        <button id="create-board-btn" onclick="createBoard()">카드 생성</button>
+      </div>
+    </main>
+  </body>
+  <script src="./js/create-board.js"></script>
+</html>
