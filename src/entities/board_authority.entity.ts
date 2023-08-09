@@ -23,7 +23,7 @@ export class BoardAuthorityEntity {
   create_at: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
-  upate_at: Date;
+  update_at: Date;
 
   @ManyToOne(() => BoardEntity, (board) => board.boardAuthority)
   @JoinColumn({ name: 'board_id' })
