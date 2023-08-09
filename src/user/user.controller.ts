@@ -1,6 +1,18 @@
-import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { userInfo } from 'os';
 
 @Controller('users')
 export class UserController {
@@ -22,5 +34,13 @@ export class UserController {
   @Delete('/:id')
   deleteUser(@Param('id') id: number) {
     return this.userService.softDeleteUser(id);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('profile')
+  async getProfile(@Request() req) {
+    const result = await this.userService.findUserByEmail(req.user.email);
+    const { password, ...userInfo } = result;
+    return userInfo;
   }
 }
