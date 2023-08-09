@@ -9,11 +9,11 @@ window.onload = () => {
   });
 };
 
+console.log(12, id);
 //컬럼 불러오기
 const getAllCol = async () => {
   //보드 아이디 필요
-  const boardId = 22;
-  const api = await fetch(`/column/${boardId}`, {
+  const api = await fetch(`/column/${id}`, {
     method: 'GET',
   });
   const data = await api.json();
@@ -71,7 +71,6 @@ const makeCol = async (data) => {
 //컬럼 추가
 const addCol = async () => {
   //보드 아이디 필요
-  const boardId = 22;
   const response = await fetch('/column', {
     method: 'POST',
     headers: {
@@ -79,7 +78,7 @@ const addCol = async () => {
     },
     body: JSON.stringify({
       name: colName.value,
-      boardId: boardId,
+      boardId: id,
     }),
   });
   const { status } = response;
@@ -93,8 +92,8 @@ const addCol = async () => {
 
 //칼럼 삭제
 const delCol = async (e) => {
-  const id = e.target.dataset.colId;
-  const response = await fetch(`/column/${id}`, {
+  const colId = e.target.dataset.colId;
+  const response = await fetch(`/column/${colId}`, {
     method: 'DELETE',
   });
   const { status } = response;
@@ -122,7 +121,7 @@ colList.addEventListener('drop', async (e) => {
   const index = [...target.parentNode.children].indexOf(target);
   index > pickedIndex ? target.after(picked) : target.before(picked);
 
-  const id = picked.getAttribute('data-card-id');
+  const colId = picked.getAttribute('data-card-id');
   const prev = picked.previousSibling?.getAttribute('data-card-id') || 0;
   const next = picked.nextSibling?.getAttribute('data-card-id') || 0;
 
@@ -134,7 +133,7 @@ colList.addEventListener('drop', async (e) => {
     body: JSON.stringify({
       prev,
       next,
-      id,
+      id: colId,
     }),
   });
   const { status } = response;
