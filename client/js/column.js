@@ -24,7 +24,7 @@ const getAllCol = async () => {
 const makeCol = async (data) => {
   colList.innerHTML += '';
   data.forEach((col) => {
-    const tempHtml = `<li class="column-item" data-card-id="${col.id}">
+    const tempHtml = `<li class="column-item" draggable='true' data-card-id="${col.id}">
     <!-- 아래 버튼 누르면 active , 좌우로 이동하게 합시다 -->
     <button class="btn-column-check">✔️</button>
     <h3 class="mb-2">${col.name}</h3>
@@ -38,6 +38,7 @@ const makeCol = async (data) => {
         class="btn btn-secondary btn-sm"
         data-bs-toggle="modal"
         data-bs-target="#createCard"
+        data-col-id="${col.id}"
       >
         카드 +
       </button>
@@ -104,3 +105,43 @@ const delCol = async (e) => {
     return window.location.reload();
   }
 };
+
+//컬럼 이동하기
+let picked = null;
+let pickedIndex = null;
+colList.addEventListener('dragstart', (e) => {
+  const target = e.target;
+  picked = target;
+  pickedIndex = [...target.parentNode.children].indexOf(target);
+});
+colList.addEventListener('dragover', (e) => {
+  e.preventDefault();
+});
+colList.addEventListener('drop', async (e) => {
+  const target = e.target;
+  const index = [...target.parentNode.children].indexOf(target);
+  index > pickedIndex ? target.after(picked) : target.before(picked);
+
+  const id = picked.getAttribute('data-card-id');
+  const prev = picked.previousSibling?.getAttribute('data-card-id') || 0;
+  const next = picked.nextSibling?.getAttribute('data-card-id') || 0;
+
+  const response = await fetch('/column/index', {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      prev,
+      next,
+      id,
+    }),
+  });
+  const { status } = response;
+  const { message } = await response.json();
+
+  if (status) {
+    alert(message);
+    return window.location.reload();
+  }
+});
