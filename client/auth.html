@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>home</title>
+    <link rel="stylesheet" href="/css/auth.css" />
+    <script src="./js/auth.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <div class="wrapper">
+        <div class="form-box-login">
+          <h2>Login</h2>
+          <form action="#" class="login-form">
+            <div class="input-box">
+              <input type="email" required />
+              <label>Email</label>
+            </div>
+            <div class="input-box">
+              <input type="password" required />
+              <label>Password</label>
+            </div>
+            <button type="submit" class="btn-login">Login</button>
+            <div class="login-register">
+              <p>
+                계정이 없다면 <a href="#" class="register-link">회원가입</a>
+              </p>
+            </div>
+          </form>
+        </div>
+
+        <!-- 회원가입 -->
+        <div class="form-box-register">
+          <h2>Register</h2>
+          <form action="#" class="register-form">
+            <div class="input-box">
+              <input type="email" required />
+              <label>Email</label>
+            </div>
+            <div class="input-box">
+              <input type="password" required />
+              <label>Password</label>
+            </div>
+            <div class="input-box" id="nickname">
+              <input type="text" />
+              <label>Nickname</label>
+            </div>
+            <button type="submit" class="btn-register">Register</button>
+            <div class="login-register">
+              <p>계정이 있다면 <a href="#" class="login-link">로그인</a></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
