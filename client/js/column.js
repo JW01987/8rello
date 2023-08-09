@@ -36,9 +36,7 @@ const makeCol = async (data) => {
     }
     const tempHtml =
       `<li class="column-item" data-col-id="${col.id}">
-    <!-- 아래 버튼 누르면 active , 좌우로 이동하게 합시다 -->
-    <button class="btn-column-check">✔️</button>
-    <h3 class="mb-2">${col.name}</h3>
+    <h3 class="mb-4">${col.name}</h3>
     <div class="btn-right mb-3 justify-content-between">
     <button type="button"
     class="btn btn-danger btn-sm delColBtn" data-col-id="${col.id}">

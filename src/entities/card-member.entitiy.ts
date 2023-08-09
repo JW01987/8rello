@@ -9,16 +9,16 @@ import {
 import { User } from './user.entity';
 import { Card } from './card.entity';
 
-@Entity()
+@Entity({ name: 'card_member' })
 export class CardMember {
   @PrimaryGeneratedColumn()
   id: number;
 
-  //   @ManyToOne(() => User, (user) => user.card_members)
-  //   user: User;
+  @ManyToOne(() => User, (user) => user.cardMember)
+  user: User;
 
-  //   @ManyToOne(() => Card, (card) => card.card_members)
-  //   card: Card;
+  @ManyToOne(() => Card, (card) => card.cardMember)
+  card: Card;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
