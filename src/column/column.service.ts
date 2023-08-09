@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {
@@ -15,14 +19,19 @@ export class ColumnService {
   ) {}
 
   async findAll(boardId: number) {
-    return await this.columnsRepository
+    const found = await this.columnsRepository
       .createQueryBuilder('column')
-      .where('column.boardId = :boardId', { boardId })
-      .orderBy('column.position', 'ASC');
+      .where('column.board = :boardId', { boardId })
+      .orderBy('column.position', 'ASC')
+      .getMany();
+    console.log('found', found);
+    return found;
   }
 
   async findOne(id: number) {
-    return await this.columnsRepository.findOne({ where: { id } });
+    const found = await this.columnsRepository.findOne({ where: { id } });
+    if (!found) throw new NotFoundException('칼럼을 찾을 수 없습니다');
+    return found;
   }
 
   async lastPosition() {
@@ -37,50 +46,83 @@ export class ColumnService {
     const boardId = data.boardId;
     //보드가 존재하는지 확인하는 코드 추가 필요
     const found = await this.findAll(boardId);
-    if (!found) {
-      //칼럼이 없을 때
+    if (found.length === 0) {
       const create = this.columnsRepository.create({
-        ...data,
+        name: data.name,
         position: 1000,
+        board: { id: boardId },
       });
-      return await this.columnsRepository.save(create);
+      await this.columnsRepository.save(create);
+      return { status: true, message: '칼럼 생성에 성공하였습니다' };
     }
-    //칼럼이 있다면 마지막 포지션 값에서 +1000
+
     const lastPosition = (await this.lastPosition()).position;
     const create = this.columnsRepository.create({
-      ...data,
+      name: data.name,
       position: lastPosition + 1000,
+      board: { id: boardId },
     });
-    return await this.columnsRepository.save(create);
+    await this.columnsRepository.save(create);
+    return { status: true, message: '칼럼 생성에 성공하였습니다' };
   }
 
   async update(data: updateColumnDto) {
     const name = data.name;
     const id = data.id;
-    return await this.columnsRepository
-      .createQueryBuilder('column')
-      .update()
-      .set({ name })
-      .where('column.id = :id', { id })
-      .execute();
+    try {
+      await this.columnsRepository
+        .createQueryBuilder()
+        .update(Columns)
+        .set({ name })
+        .where('id = :id', { id })
+        .execute();
+      return { status: true, message: '칼럼 수정에 성공하였습니다' };
+    } catch (err) {
+      throw new InternalServerErrorException('칼럼 수정에 실패했습니다');
+    }
   }
 
   async delete(id: number) {
     await this.findOne(id);
-    return await this.columnsRepository.delete({ id });
+    await this.columnsRepository.delete({ id });
+    return { status: true, message: '칼럼이 삭제되었습니다' };
   }
 
   async changeIndex(data: changeColPositionDto) {
-    const prev = await (await this.findOne(data.prev)).position;
-    const next = await (await this.findOne(data.next)).position;
     const id = data.id;
 
-    const position = Math.round((prev + next) / 2);
-    return await this.columnsRepository
-      .createQueryBuilder('column')
-      .update()
+    if (data.prev === 0) {
+      const next = await this.findOne(data.next);
+      const position = Math.round(next.position / 2);
+      await this.columnsRepository
+        .createQueryBuilder()
+        .update(Columns)
+        .set({ position })
+        .where('id = :id', { id })
+        .execute();
+      return { status: true, message: '컬럼 순서가 변경되었습니다' };
+    }
+    if (data.next === 0) {
+      const prev = await this.findOne(data.prev);
+      const position = prev.position + 1000;
+      await this.columnsRepository
+        .createQueryBuilder()
+        .update(Columns)
+        .set({ position })
+        .where('id = :id', { id })
+        .execute();
+      return { status: true, message: '컬럼 순서가 변경되었습니다' };
+    }
+
+    const prev = await this.findOne(data.prev);
+    const next = await this.findOne(data.next);
+    const position = Math.round((prev.position + next.position) / 2);
+    await this.columnsRepository
+      .createQueryBuilder()
+      .update(Columns)
       .set({ position })
-      .where('column.id = :id', { id })
+      .where('id = :id', { id })
       .execute();
+    return { status: true, message: '컬럼 순서가 변경되었습니다' };
   }
 }

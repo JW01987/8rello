@@ -5,7 +5,7 @@ export class ColumnDto {
   @IsNotEmpty()
   name: string;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
   boardId: number;
 }

@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import {
   changeColPositionDto,
   ColumnDto,
@@ -11,6 +19,12 @@ export class ColumnController {
   constructor(private columnService: ColumnService) {}
 
   //@UseGuards(AuthGuard)
+  @Get(':id')
+  async findAll(@Param('id') boardId: number) {
+    return await this.columnService.findAll(boardId);
+  }
+
+  //@UseGuards(AuthGuard)
   @Post()
   async createCol(@Body() data: ColumnDto) {
     return await this.columnService.create(data);
@@ -18,7 +32,7 @@ export class ColumnController {
 
   //@UseGuards(AuthGuard)
   @Patch()
-  async updateCol(@Body('name') data: updateColumnDto) {
+  async updateCol(@Body() data: updateColumnDto) {
     return await this.columnService.update(data);
   }
 
@@ -28,6 +42,7 @@ export class ColumnController {
     return await this.columnService.delete(id);
   }
 
+  //맨 앞이거나 맨 뒤라면 prev, next의 값을 0으로 주세요
   //@UseGuards(AuthGuard)
   @Patch('/index')
   async changeIndex(@Body() data: changeColPositionDto) {

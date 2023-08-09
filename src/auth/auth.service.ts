@@ -1,26 +1,25 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { LoginDto } from './dto/login.dto';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private jwtService: JwtService) {}
 
-  async login(loginDto: LoginDto) {
-    const { email, password } = loginDto;
+  async login(email: string, password: string) {
     const user = await this.userService.findUserByEmail(email);
-    const isPasswordsMatch = await bcrypt.compare(password, user.password);
+    const { password: hashedPassword, ...userInfo } = user;
+    const isPasswordsMatch = await bcrypt.compare(password, hashedPassword);
 
     if (!user || !isPasswordsMatch) {
-      throw new HttpException('Incorrect password', 401);
+      throw new UnauthorizedException();
     }
 
-    const { password: _password, ...result } = user;
-
-    // const payload = { username: result.username, id: result.id };
-    // return{
-    //   access_token: this.
-    // }
+    const payload = { id: userInfo.id, username: userInfo.username };
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
 }
