@@ -40,8 +40,8 @@ export class User {
   // @OneToMany(() => CardMember, (cardMember) => cardMember.user)
   // cardMembers: CardMember;
 
-  // @OneToMany(() => BoardEntity, (board) => board.user)
-  // boards: BoardEntity[];
+  @OneToMany(() => BoardEntity, (board) => board.user)
+  boards: BoardEntity[];
 
   // @OneToMany(
   //   () => BoardAuthorityEntity,
