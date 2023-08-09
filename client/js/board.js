@@ -36,9 +36,12 @@ async function populateBoardList() {
     boardListHTML += '<ul>'; // ul 요소 열기
 
     boards.forEach((board) => {
+      const isActive = board.id === parseInt(boardId, 10);
+      const activeClass = isActive ? 'active' : '';
+
       boardListHTML += `
         <li>
-          <a href="/boards/${board.id}" data-board-id="${board.id}">${board.name}</a>
+          <a href="/boards/${board.id}" data-board-id="${board.id}" class="${activeClass}">${board.name}</a>
         </li>
       `;
     });
