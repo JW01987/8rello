@@ -51,14 +51,15 @@ export class BoardController {
   }
 
   //-- 보드 수정하기 --//
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Patch('/:board_id')
   async updateBoard(
     @Param('board_id') board_id: number,
     @Body() updateBoardDto: UpdateBoardDto,
     @Req() request: any,
   ) {
-    const user = request.user;
+    // const user = request.user;
+    const user = { id: 1 };
     return await this.boardService.update(user.id, board_id, updateBoardDto);
   }
 
