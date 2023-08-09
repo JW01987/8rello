@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateBoardDto, UpdateBoardDto } from './dto';
 import { BoardData } from './board.interface';
 import { BoardEntity } from '../entities/board.entity';
+import { User } from 'src/entities/user.entity';
 import { BoardAuthorityEntity } from '../entities/board_authority.entity';
 
 @Injectable()
@@ -53,6 +54,7 @@ export class BoardService {
         name: true,
         bg_color: true,
       },
+      relations: ['user'],
     });
 
     if (!targetBoards.length) {
@@ -61,6 +63,7 @@ export class BoardService {
         HttpStatus.NOT_FOUND,
       );
     }
+    console.log(targetBoards);
 
     return targetBoards;
   }

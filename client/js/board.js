@@ -27,14 +27,21 @@ async function populateBoardList() {
     const boards = await getBoards();
     let boardListHTML = '';
 
+    boardListHTML += `
+      <h2 style="color: #fff; padding: 10px; margin-bottom: 10px;">
+        ${boards[0].user.username}님의 보드
+      </h2>`; // 예시로 첫 번째 보드의 사용자명 사용
+    boardListHTML += '<ul>'; // ul 요소 열기
+
     boards.forEach((board) => {
       boardListHTML += `
-       <h2></h2>
         <li>
           <a href="/boards/${board.id}" data-board-id="${board.id}">${board.name}</a>
         </li>
       `;
     });
+
+    boardListHTML += '</ul>'; // ul 요소 닫기
 
     boardListElement.innerHTML = boardListHTML;
   } catch (error) {
