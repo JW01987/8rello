@@ -35,6 +35,7 @@
     <script defer src="/js/create-board.js"></script>
     <script defer src="/js/board.js"></script>
     <script defer src="/js/profile.js"></script>
+    <script defer src="/js/invite.js"></script>
   </head>
   <body class="menu-active">
     <!-- 모달 : 보드 생성 -->
@@ -209,13 +210,13 @@
           </div>
           <div class="modal-body">
             <div class="mb-3">
-              <label for="exampleFormControlInput1" class="form-label"
+              <label for="inviteUserId" class="form-label"
                 >초대할 유저의 아이디를 입력해주세요.</label
               >
               <input
                 type="text"
                 class="form-control"
-                id="exampleFormControlInput1"
+                id="inviteUserId"
                 placeholder="id"
               />
             </div>
@@ -228,7 +229,7 @@
             >
               닫기
             </button>
-            <button type="button" id="btnInvite" class="btn btn-primary">
+            <button type="button" id="userInviteBtn" class="btn btn-primary">
               초대하기
             </button>
           </div>
@@ -707,12 +708,8 @@
             </div>
           </div>
           <div class="flex-wrap gap-10">
-            <button
-              type="button"
-              class="btn btn-primary"
-              onclick="window.location.href='./auth.html'"
-            >
-              로그인
+            <button type="button" class="btn btn-primary" id="logout">
+              로그아웃
             </button>
             <button
               type="button"

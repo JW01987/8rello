@@ -17,6 +17,7 @@ import {
 import { BoardService } from './board.service';
 import { CreateBoardDto, UpdateBoardDto } from './dto';
 import { AuthGuard } from '../auth/auth.guard';
+import { InvitationUser } from './dto/invitation-user.dto';
 
 @Controller('board')
 export class BoardController {
@@ -70,9 +71,10 @@ export class BoardController {
 
   //-- 보드 권한유저 추가 --//
   @UseGuards(AuthGuard)
-  @Post('/:board_id/invition')
-  async invition(@Param('board_id') board_id: number, @Req() request: any) {
+  @Post('/invitation')
+  async invitation(@Body() data: InvitationUser, @Req() request: any) {
     const user = request.user;
-    return await this.boardService.createBoardAuthority(user.id, board_id);
+    console.log(1, user);
+    return await this.boardService.createBoardAuthority(data, user);
   }
 }
