@@ -74,12 +74,21 @@ async function loadBoardDetail(boardId) {
   }
 }
 
-async function populateBoardDetail(boardId) {
+function populateBoardDetail(boardId) {
   try {
     const boardNameElement = document.querySelector('h1');
+    const containerFluidElement = document.querySelector('.container-fluid');
 
-    const boardDetail = await loadBoardDetail(boardId);
-    boardNameElement.innerText = boardDetail.name;
+    loadBoardDetail(boardId)
+      .then((boardDetail) => {
+        boardNameElement.innerText = boardDetail.name;
+        containerFluidElement.style.backgroundColor = boardDetail.bg_color;
+        console.log(boardDetail);
+        applyBoardDetailStyles(containerFluidElement, boardDetail);
+      })
+      .catch((error) => {
+        console.error('Error populating board detail:', error);
+      });
   } catch (error) {
     console.error('Error populating board detail:', error);
   }
@@ -94,7 +103,6 @@ async function updateBoard() {
   const currentPath = window.location.pathname;
   const id = currentPath.match(/\d+/)[0];
   const boardId = id;
-  console.log(boardId);
 
   const boardNameInput = document.getElementById('editBoardName');
   const boardIntroductionInput = document.getElementById(
@@ -132,3 +140,31 @@ async function updateBoard() {
   location.reload();
 }
 //-- /보드 수정하기 -//
+
+//-- 보드 삭제하기 --//
+const deleteButton = document.getElementById('btnDeleteBoard');
+
+deleteButton.addEventListener('click', async () => {
+  const confirmDelete = confirm('보드를 삭제하시겠습니까?');
+  if (!confirmDelete) {
+    return;
+  }
+
+  const response = await fetch(`/board/${boardId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (response.ok) {
+    alert('삭제되었습니다.');
+    location.reload();
+  } else {
+    const responseData = await response.json();
+    console.error('Error deleting board:', responseData.error);
+    alert('An error occurred while deleting the board.');
+  }
+});
+
+//-- /보드 삭제하기 --//
