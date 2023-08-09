@@ -30,10 +30,19 @@
       integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
       crossorigin="anonymous"
     ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+      integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
     <script defer src="/js/main.js"></script>
     <script defer src="/js/column.js"></script>
     <script defer src="/js/create-board.js"></script>
     <script defer src="/js/board.js"></script>
+    <script defer src="/js/card.js"></script>
+    <script defer src="/js/create-board.js"></script>
     <script defer src="/js/profile.js"></script>
     <script defer src="/js/invite.js"></script>
   </head>
@@ -372,8 +381,7 @@
             <button
               type="button"
               id="btnInvite"
-              class="btn btn-primary"
-              onclick="createCard()"
+              class="btn btn-primary create-card-btn"
             >
               생성하기
             </button>
@@ -756,6 +764,4 @@
       <!-- /본문 -->
     </div>
   </body>
-  <script src="./js/card.js"></script>
-  <script src="./js/create-board.js"></script>
 </html>
