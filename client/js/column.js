@@ -46,7 +46,7 @@ const makeCol = async (data) => {
       </button>
       <button
         type="button"
-        class="btn btn-secondary btn-sm"
+        class="btn btn-secondary btn-sm create-card-btn"
         data-bs-toggle="modal"
         data-bs-target="#createCard"
         data-col-id="${col.id}"
@@ -71,6 +71,7 @@ const makeCol = async (data) => {
       `
     </div>
     </li>`;
+
     colList.innerHTML += tempHtml;
   }
   //칼럼 삭제 이벤트
