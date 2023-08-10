@@ -4,7 +4,6 @@ document
   .addEventListener('shown.bs.modal', (event) => {
     const modalTriggerButton = event.relatedTarget;
     const column_id = modalTriggerButton.getAttribute('data-col-id');
-    console.log(column_id);
 
     function createCard(column_id) {
       const card_name = document.querySelector('#card-name').value;
@@ -45,13 +44,10 @@ document
   .addEventListener('shown.bs.modal', async (event) => {
     const modalTriggerButton = event.relatedTarget;
     const card_id = modalTriggerButton.getAttribute('data-card-id');
-    console.log(card_id);
 
     const data = await fetch(`/cards/detail?card_id=${card_id}`);
     const cardData = await data.json();
-    console.log(data);
     const cardDetail = cardData.result;
-    console.log(cardDetail);
     const cardName = document.querySelector('.card-name');
     cardName.textContent = cardDetail.card_name;
     const cardDescription = document.querySelector('.card-description');
@@ -59,11 +55,12 @@ document
     const cardDeadline = document.querySelector('.card-deadline');
     cardDeadline.textContent = cardDetail.deadline;
 
+    // 댓글 불러와서 innerHTML로 넣어주기
     const commentData = await (
       await fetch(`/cards/comments?card_id=${card_id}`)
     ).json();
     const commentList = document.querySelector('.comment-list');
-    console.log('댓글', commentData);
+    commentList.innerHTML = ``; // 다른카드 데이터 안남아있게 commentList 초기화
     let comment_temp = ``;
     for await (let data of commentData) {
       let comment = data.comment;
@@ -117,11 +114,11 @@ document
       commentList.innerHTML = comment_temp;
     }
 
+    //댓글 작성버튼
     document
       .querySelector('.write-comment-btn')
       .addEventListener('click', async (event) => {
         const comment = document.getElementById('comment-input').value;
-        console.log('코멘트코멘트', comment);
         const response = await fetch(`/cards/comments?card_id=${card_id}`, {
           method: 'POST',
           headers: {
@@ -133,14 +130,11 @@ document
         });
         const data = await response.json();
         alert(data.message);
-
-        // 모달창만 새로고침 가능?
       });
 
     // 멤버 불러오기
     let member_temp = ``;
     const memberData = await (await fetch(`/cards/member/${card_id}`)).json();
-    console.log(memberData.result);
     const memberList = document.querySelector('.card-member-list');
     memberData.result.forEach((ele) => {
       const username = ele.username;
@@ -158,6 +152,7 @@ document
     });
   });
 
+//댓글 삭제 함수
 async function deleteComment(comment_id) {
   const data = await (
     await fetch(`/cards/comments?comment_id=${comment_id}`, {
