@@ -1,8 +1,7 @@
 console.log('board.js 연결');
 const API_URL = 'http://localhost:3000';
 const boardListElement = document.getElementById('boardList');
-//-- 지금 접속하고 있는 board_id값 추출 --//]
-const boardId = currentPath.match(/\d+/)[0]; // 경로에서 숫자 값 추출
+const boardId = currentPath.match(/\d+/)[0];
 
 //-- 보드 불러오기 --//
 async function getBoards() {
@@ -32,8 +31,8 @@ async function populateBoardList() {
     boardListHTML += `
       <h2 style="color: #fff; padding: 10px 20px; margin-bottom: 10px; font-size: 20px">
         ${boards[0].user.username}님의 보드
-      </h2>`; // 예시로 첫 번째 보드의 사용자명 사용
-    boardListHTML += '<ul>'; // ul 요소 열기
+      </h2>`;
+    boardListHTML += '<ul>';
 
     boards.forEach((board) => {
       const isActive = board.id === parseInt(boardId, 10);
@@ -46,7 +45,7 @@ async function populateBoardList() {
       `;
     });
 
-    boardListHTML += '</ul>'; // ul 요소 닫기
+    boardListHTML += '</ul>';
 
     boardListElement.innerHTML = boardListHTML;
   } catch (error) {
@@ -95,8 +94,6 @@ function populateBoardDetail(boardId) {
     console.error('Error populating board detail:', error);
   }
 }
-
-// 클라이언트에서 보드 상세 정보를 가져오고 페이지에 표시하기 위해 호출
 populateBoardDetail(boardId);
 //-- /보드 상세정보 --//
 
