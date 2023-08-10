@@ -22,6 +22,7 @@ import {
 import { Response, query } from 'express';
 import { IRequest } from 'src/commons/interfaces/context';
 import { retry } from 'rxjs';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('cards')
 export class CardsController {
