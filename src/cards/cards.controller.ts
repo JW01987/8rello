@@ -80,17 +80,6 @@ export class CardsController {
   }
 
   //카드 이동
-  // @Patch('position')
-  // public async updateCardPosition(@Query() Query, @Res() res: Response) {
-  //   const { card_id, position } = Query;
-  //   const { message } = await this.cardsService.updateCardPosition(
-  //     card_id,
-  //     position,
-  //   );
-  //   return res.json({ message });
-  // }
-
-  //카드 이동
   @Patch('position')
   public async updateCardPosition(
     @Body() body: updateCardPositionDto,
