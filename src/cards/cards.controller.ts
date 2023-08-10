@@ -18,6 +18,7 @@ import { UpdateCardDto, updateCardPositionDto } from './dto/update-card.dto';
 import { Response, query } from 'express';
 import { AuthGuard } from '../auth/auth.guard';
 import { IRequest } from 'src/commons/interfaces/context';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('cards')
 export class CardsController {
@@ -103,13 +104,15 @@ export class CardsController {
 
   //카드 댓글 작성
   @Post('comments')
+  @UseGuards(AuthGuard)
   public async createCardComment(
     @Query() Query,
     @Req() req: IRequest,
     @Res() res: Response,
-    @Body('comment') comment,
+    @Body() body,
   ) {
     const user_id = req.user.id;
+    const comment = body.comment;
     const { card_id } = Query;
     const { message, result } = await this.cardsService.createCardComment(
       card_id,
@@ -118,6 +121,23 @@ export class CardsController {
     );
 
     return res.json({ message, result });
+  }
+
+  // 카드 댓글 조회
+  @Get('comments')
+  public async findCardComments(@Query('card_id') card_id: number) {
+    const results = await this.cardsService.findCardComments(card_id);
+    return results;
+  }
+
+  // 카드 댓글 삭제
+  @Delete('comments')
+  public async deleteCardComment(
+    @Query('comment_id') comment_id: number,
+    @Res() res: Response,
+  ) {
+    const { message } = await this.cardsService.deleteCardComment(comment_id);
+    return res.json({ message });
   }
 
   // 카드 삭제
@@ -129,6 +149,7 @@ export class CardsController {
     const { message } = await this.cardsService.deleteCard(card_id);
     return res.json({ message });
   }
+
 
   // 카드 멤버 조회
   @UseGuards(AuthGuard)
