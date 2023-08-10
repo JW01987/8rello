@@ -57,6 +57,6 @@ export class BoardEntity {
   )
   boardAuthority: BoardAuthorityEntity[];
 
-  @OneToMany(() => Columns, (col) => col.board)
+  @OneToMany(() => Columns, (col) => col.board, { cascade: true })
   columns: Columns[];
 }
