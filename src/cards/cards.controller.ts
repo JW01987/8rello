@@ -18,7 +18,6 @@ import { UpdateCardDto, updateCardPositionDto } from './dto/update-card.dto';
 import { Response, query } from 'express';
 import { AuthGuard } from '../auth/auth.guard';
 import { IRequest } from 'src/commons/interfaces/context';
-import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('cards')
 export class CardsController {
@@ -149,7 +148,6 @@ export class CardsController {
     const { message } = await this.cardsService.deleteCard(card_id);
     return res.json({ message });
   }
-
 
   // 카드 멤버 조회
   @UseGuards(AuthGuard)
