@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCardDto } from './dto/card.dto';
-import { UpdateCardDto } from './dto/update-card.dto';
+import { UpdateCardDto, updateCommentDto } from './dto/update-card.dto';
 import { Card } from 'src/entities/card.entity';
 import { CardMember } from 'src/entities/card-member.entitiy';
 import { MoreThanOrEqual, Repository } from 'typeorm';
@@ -116,8 +116,6 @@ export class CardsService {
       }
       nextPosition = nextPosition + 1000;
       targetCard.position = Math.ceil((prevPosition + nextPosition) / 2);
-      // targetCard.column = column_id;
-      // await this.cardRepository.update({id:card_id}, {column:column_id})
       await this.cardRepository.save(targetCard);
       return targetCard;
     } else if (!nextPosition) {
@@ -185,5 +183,21 @@ export class CardsService {
     });
 
     return { message: '멤버가 추가되었습니다.', result };
+  }
+
+  //카드 댓글 수정
+  async updateComment(data: updateCommentDto) {
+    const { commentId, comment } = data;
+    const found = await this.commentRepository.findOne({
+      where: { id: commentId },
+    });
+    if (!found) throw new NotFoundException('코맨트를 찾을 수 없습니다');
+    await this.commentRepository
+      .createQueryBuilder()
+      .update(Card_comment)
+      .set({ comment })
+      .where('id = :commentId', { commentId })
+      .execute();
+    return { message: '댓글이 수정되었습니다' };
   }
 }

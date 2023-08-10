@@ -30,7 +30,7 @@ export class AuthController {
     return res.status(HttpStatus.OK).json(result);
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Post('logout')
   async logout(@Res({ passthrough: true }) response: Response) {
     response.clearCookie('access_token');
