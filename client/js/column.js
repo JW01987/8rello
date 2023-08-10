@@ -27,17 +27,29 @@ const makeCol = async (data) => {
     const cardData = await (await fetch(`/cards?column_id=${col.id}`)).json();
     let cardTemp = '';
     for (let card of cardData.results) {
-      cardTemp += `<button
+      cardTemp += `<div class="d-flex" data-card-id="${card.id}" data-position="${card.position}"><button
       type="button"
-      class="btn-sm card-item mb-2"
+      class="btn-sm card-item mb-2 "
       data-bs-toggle="modal"
       data-bs-target="#cardDetail"
+      draggable='true'
       data-card-id="${card.id}"
-    ><span class='card-title'>${card.card_name}</span> </button>`;
+      >
+    <span class='card-title'>${card.card_name}</span> 
+    </button>
+    <div class="ms-2">
+    <button class="card-up-btn">🔼</button>
+    <button class="card-down-btn">🔽</button>
+    </div>
+    </div>
+    `;
     }
     const tempHtml =
-      `<li class="column-item" data-col-id="${col.id}">
-    <h3 class="mb-4">${col.name}</h3>
+
+      `<li class="column-item" draggable='true' data-col-id="${col.id}">
+    <!-- 아래 버튼 누르면 active , 좌우로 이동하게 합시다 -->
+    <button class="btn-column-check">✔️</button>
+    <h3 class="mb-2">${col.name}</h3>
     <div class="btn-right mb-3 justify-content-between">
     <button type="button"
     class="btn btn-danger btn-sm delColBtn" data-col-id="${col.id}">
@@ -54,17 +66,6 @@ const makeCol = async (data) => {
       </button>
     </div>
     <div class="card-list">
-      <button
-        type="button"
-        class="btn-sm card-item mb-2"
-        data-bs-toggle="modal"
-        data-bs-target="#cardDetail"
-      >
-        <span class="card-title"
-          >간략한.. 카드 제목나올곳 누르면 숑나올곳 누르면 숑나올곳
-          누르면 숑나올곳 누르면 숑나올곳 누르면 숑</span
-        >
-      </button>
   ` +
       cardTemp +
       `
@@ -78,6 +79,22 @@ const makeCol = async (data) => {
   delColBtnList.forEach((btn) => {
     btn.addEventListener('click', (e) => {
       delCol(e);
+    });
+  });
+
+  //카드 컬럼 내에서 이동
+  const cardUpBtnList = document.querySelectorAll('.card-up-btn');
+  const cardDownBtnList = document.querySelectorAll('.card-down-btn');
+
+  cardUpBtnList.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      cardMoveInCol(e, true);
+    });
+  });
+
+  cardDownBtnList.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      cardMoveInCol(e, false);
     });
   });
 };
@@ -124,21 +141,23 @@ let picked = null;
 let pickedIndex = null;
 colList.addEventListener('dragstart', (e) => {
   const target = e.target;
+  if (target.parentNode !== e.currentTarget) return;
   picked = target;
   pickedIndex = [...target.parentNode.children].indexOf(target);
 });
 colList.addEventListener('dragover', (e) => {
   e.preventDefault();
+  if (e.target.parentNode !== e.currentTarget) return;
 });
 colList.addEventListener('drop', async (e) => {
+  if (e.target.parentNode !== e.currentTarget) return;
   const target = e.target;
   const index = [...target.parentNode.children].indexOf(target);
   index > pickedIndex ? target.after(picked) : target.before(picked);
 
-  const colId = picked.getAttribute('data-card-id');
-  const prev = picked.previousSibling?.getAttribute('data-card-id') || 0;
-  const next = picked.nextSibling?.getAttribute('data-card-id') || 0;
-
+  const colId = picked.getAttribute('data-col-id');
+  const prev = picked.previousSibling?.getAttribute('data-col-id') || 0;
+  const next = picked.nextSibling?.getAttribute('data-col-id') || 0;
   const response = await fetch('/column/index', {
     method: 'PATCH',
     headers: {
@@ -158,3 +177,37 @@ colList.addEventListener('drop', async (e) => {
     return window.location.reload();
   }
 });
+
+const cardMoveInCol = async (e, isPrev) => {
+  const target = e.target.parentNode.parentNode;
+  if (isPrev) {
+    const prevCard = target.previousElementSibling;
+    target.after(prevCard);
+  } else {
+    const nextCard = target.nextElementSibling;
+    target.before(nextCard);
+  }
+
+  const cardId = target.getAttribute('data-card-id');
+  const prevPosition =
+    target.previousElementSibling.getAttribute('data-position');
+  const nextPosition = target.nextElementSibling.getAttribute('data-position');
+  const colId = target.parentNode.parentNode.getAttribute('data-col-id');
+
+  console.log(prevPosition, nextPosition);
+
+  const response = await fetch(`/cards/position?card_id=${cardId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      column_id: colId,
+      prevPosition,
+      nextPosition,
+    }),
+  })
+    .then((res) => res.json())
+    .then(alert('카드 위치가 수정되었습니다'))
+    .then(window.location.reload());
+};
