@@ -45,6 +45,7 @@ const makeCol = async (data) => {
     `;
     }
     const tempHtml =
+
       `<li class="column-item" draggable='true' data-col-id="${col.id}">
     <!-- 아래 버튼 누르면 active , 좌우로 이동하게 합시다 -->
     <button class="btn-column-check">✔️</button>
