@@ -9,10 +9,8 @@ window.onload = () => {
   });
 };
 
-console.log(12, id);
 //컬럼 불러오기
 const getAllCol = async () => {
-  //보드 아이디 필요
   const api = await fetch(`/column/${id}`, {
     method: 'GET',
   });
@@ -45,7 +43,6 @@ const makeCol = async (data) => {
     `;
     }
     const tempHtml =
-
       `<li class="column-item" draggable='true' data-col-id="${col.id}">
     <!-- 아래 버튼 누르면 active , 좌우로 이동하게 합시다 -->
     <button class="btn-column-check">✔️</button>
@@ -82,7 +79,7 @@ const makeCol = async (data) => {
     });
   });
 
-  //카드 컬럼 내에서 이동
+  //컬럼내에서 카드 이동 이벤트
   const cardUpBtnList = document.querySelectorAll('.card-up-btn');
   const cardDownBtnList = document.querySelectorAll('.card-down-btn');
 
@@ -101,7 +98,6 @@ const makeCol = async (data) => {
 
 //컬럼 추가
 const addCol = async () => {
-  //보드 아이디 필요
   const response = await fetch('/column', {
     method: 'POST',
     headers: {
@@ -121,7 +117,7 @@ const addCol = async () => {
   }
 };
 
-//칼럼 삭제
+//칼럼 삭제 함수
 const delCol = async (e) => {
   const colId = e.target.dataset.colId;
   const response = await fetch(`/column/${colId}`, {
@@ -139,6 +135,7 @@ const delCol = async (e) => {
 //컬럼 이동하기
 let picked = null;
 let pickedIndex = null;
+
 colList.addEventListener('dragstart', (e) => {
   const target = e.target;
   if (target.parentNode !== e.currentTarget) return;
@@ -178,6 +175,7 @@ colList.addEventListener('drop', async (e) => {
   }
 });
 
+//컬럼 내에서 카드 위치 이동하는 함수
 const cardMoveInCol = async (e, isPrev) => {
   const target = e.target.parentNode.parentNode;
   if (isPrev) {
@@ -196,7 +194,7 @@ const cardMoveInCol = async (e, isPrev) => {
 
   console.log(prevPosition, nextPosition);
 
-  const response = await fetch(`/cards/position?card_id=${cardId}`, {
+  await fetch(`/cards/position?card_id=${cardId}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',

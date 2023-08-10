@@ -1,5 +1,7 @@
 const inviteUserId = document.querySelector('#inviteUserId');
 const userInviteBtn = document.querySelector('#userInviteBtn');
+
+//보드에 유저 초대
 userInviteBtn.addEventListener('click', async () => {
   const response = await fetch(`/board/invitation`, {
     method: 'POST',
@@ -14,5 +16,5 @@ userInviteBtn.addEventListener('click', async () => {
   const { message } = await response.json();
 
   alert(message);
-  // return window.location.reload();
+  return window.location.reload();
 });

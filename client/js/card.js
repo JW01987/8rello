@@ -150,7 +150,7 @@ document
         deleteComment(comment_id);
       });
     });
-    //댓글 수정
+    //댓글 수정 버튼
     document.querySelectorAll('.comment-edit-btn').forEach((btn) => {
       btn.addEventListener('click', (e) => {
         const commentId = e.target.getAttribute('data-comment-id');
@@ -169,6 +169,7 @@ async function deleteComment(comment_id) {
   alert(data.message);
 }
 
+//댓글 수정 함수
 const updateComment = async (e, commentId) => {
   const comment = e.target.previousElementSibling.value;
 
