@@ -1,4 +1,3 @@
-console.log('board.js 연결');
 const API_URL = 'http://localhost:3000';
 const boardListElement = document.getElementById('boardList');
 const boardId = currentPath.match(/\d+/)[0];

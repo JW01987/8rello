@@ -12,7 +12,6 @@ export class AppController {
     });
   }
 
-  // 보드 id 에 맞는 페이지로 이동
   @Get('boards/:id')
   showBoard(@Res() res: any) {
     res.sendFile('index.html', {
