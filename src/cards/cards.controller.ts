@@ -17,7 +17,6 @@ import { CreateCardDto } from './dto/card.dto';
 import { UpdateCardDto, updateCardPositionDto } from './dto/update-card.dto';
 import { Response, query } from 'express';
 import { IRequest } from 'src/commons/interfaces/context';
-import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('cards')
 export class CardsController {
