@@ -9,12 +9,15 @@ import { User } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
 import * as bcrypt from 'bcrypt';
+import { BoardEntity } from 'src/entities/board.entity';
 
 // 회원가입, 사용자 정보 수정
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(BoardEntity)
+    private boardRepository: Repository<BoardEntity>,
   ) {}
 
   async signup(user: CreateUserDto): Promise<{ message: string }> {
@@ -57,19 +60,27 @@ export class UserService {
   }
 
   async findUserByEmail(email: string) {
-    return await this.userRepository.findOne({ where: { email } });
+    const user = await this.userRepository.findOne({ where: { email } });
+    if (!user) throw new NotFoundException();
+    return user;
   }
 
   async softDeleteUser(id: number) {
     const existingUser: User = await this.userRepository.findOne({
       where: { id },
+      relations: ['boards'],
     });
 
-    if (!existingUser)
+    if (!existingUser) {
       throw new NotFoundException('id와 일치하는 유저가 없습니다.');
-
+    }
     try {
       await this.userRepository.softDelete(id);
+      if (existingUser.boards.length) {
+        await this.boardRepository.delete(
+          existingUser.boards.map((board) => board.id),
+        );
+      }
       return { message: '회원탈퇴를 완료했습니다.' };
     } catch (error) {
       throw new HttpException('서버 에러', HttpStatus.INTERNAL_SERVER_ERROR);
