@@ -82,11 +82,6 @@ export class UserService {
     }
     try {
       await this.userRepository.softDelete(id);
-      if (existingUser.boards.length) {
-        await this.boardRepository.delete(
-          existingUser.boards.map((board) => board.id),
-        );
-      }
       return { message: '회원탈퇴를 완료했습니다.' };
     } catch (error) {
       throw new HttpException('서버 에러', HttpStatus.INTERNAL_SERVER_ERROR);
