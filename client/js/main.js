@@ -16,17 +16,21 @@ columnItems.forEach((columnItem) => {
 });
 
 // 댓글 수정 창
-const commentItems = document.querySelectorAll('.comment-item');
+const commentContainer = document.getElementById('cardDetail');
 
-commentItems.forEach((commentItem) => {
-  const editButton = commentItem.querySelector('.btn-comment-edit');
-  const commentContent = commentItem.querySelector('.comment-content');
-  const commentEditContent = commentItem.querySelector('.comment-edit-content');
+commentContainer.addEventListener('click', (event) => {
+  const target = event.target;
 
-  editButton.addEventListener('click', () => {
+  if (target.classList.contains('btn-comment-edit')) {
+    const commentItem = target.closest('.comment-item');
+    const commentContent = commentItem.querySelector('.comment-content');
+    const commentEditContent = commentItem.querySelector(
+      '.comment-edit-content',
+    );
+
     commentContent.style.display = 'none';
     commentEditContent.style.display = 'block';
-  });
+  }
 });
 
 //-- 지금 접속하고 있는 board_id값 추출 --//
