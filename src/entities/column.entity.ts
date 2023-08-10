@@ -30,7 +30,10 @@ export class Columns {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  @ManyToOne(() => BoardEntity, (board) => board.columns)
+  @ManyToOne(() => BoardEntity, (board) => board.columns, {
+    onDelete: 'CASCADE',
+    eager: true,
+  })
   board: BoardEntity;
 
   @OneToMany(() => Card, (cards) => cards.column, { cascade: true })

@@ -20,7 +20,6 @@ import {
   updateCommentDto,
 } from './dto/update-card.dto';
 import { Response, query } from 'express';
-import { AuthGuard } from '../auth/auth.guard';
 import { IRequest } from 'src/commons/interfaces/context';
 import { retry } from 'rxjs';
 

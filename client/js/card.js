@@ -137,8 +137,18 @@ document
         // 모달창만 새로고침 가능?
       });
 
-    // 멤버 api 완성 후 구현
-    // let member_temp = ``
+    // 멤버 불러오기
+    let member_temp = ``;
+    const memberData = await (await fetch(`/cards/member/${card_id}`)).json();
+    console.log(memberData.result);
+    const memberList = document.querySelector('.card-member-list');
+    memberData.result.forEach((ele) => {
+      const username = ele.username;
+      member_temp += `<li>${username}</li>`;
+    });
+    memberList.innerHTML = member_temp;
+
+    //댓글 삭제 버튼
     const deleteBtn = document.querySelectorAll('.comment-delete-btn');
     deleteBtn.forEach((btn) => {
       btn.addEventListener('click', (event) => {
