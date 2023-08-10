@@ -10,11 +10,13 @@ import {
   Query,
   Req,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './dto/card.dto';
 import { UpdateCardDto, updateCardPositionDto } from './dto/update-card.dto';
-import { Response } from 'express';
+import { Response, query } from 'express';
+import { AuthGuard } from '../auth/auth.guard';
 import { IRequest } from 'src/commons/interfaces/context';
 
 @Controller('cards')
@@ -128,9 +130,26 @@ export class CardsController {
     return res.json({ message });
   }
 
-  @Get('aaaa')
-  public async test() {
-    const result = await this.cardsService.getLastPosition();
-    return result;
+  // 카드 멤버 조회
+  @UseGuards(AuthGuard)
+  @Get('/member/:card_id')
+  public async getMembers(
+    @Param('card_id') card_id: number,
+    @Res() res: Response,
+  ) {
+    const { message, result } = await this.cardsService.getMembers(card_id);
+    return res.json({ message, result });
+  }
+
+  // 카드 멤버 추가
+  @UseGuards(AuthGuard)
+  @Post('/member/:card_id')
+  public async addMember(
+    @Param('card_id') card_id: number,
+    @Query('user_id') user_id: string,
+    @Res() res: Response,
+  ) {
+    const { message } = await this.cardsService.addMember(card_id, user_id);
+    return res.json({ message });
   }
 }

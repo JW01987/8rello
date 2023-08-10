@@ -32,13 +32,12 @@ const makeCol = async (data) => {
       class="btn-sm card-item mb-2"
       data-bs-toggle="modal"
       data-bs-target="#cardDetail"
+      data-card-id="${card.id}"
     ><span class='card-title'>${card.card_name}</span> </button>`;
     }
     const tempHtml =
       `<li class="column-item" data-col-id="${col.id}">
-    <!-- 아래 버튼 누르면 active , 좌우로 이동하게 합시다 -->
-    <button class="btn-column-check">✔️</button>
-    <h3 class="mb-2">${col.name}</h3>
+    <h3 class="mb-4">${col.name}</h3>
     <div class="btn-right mb-3 justify-content-between">
     <button type="button"
     class="btn btn-danger btn-sm delColBtn" data-col-id="${col.id}">
@@ -46,7 +45,7 @@ const makeCol = async (data) => {
       </button>
       <button
         type="button"
-        class="btn btn-secondary btn-sm"
+        class="btn btn-secondary btn-sm create-card-btn"
         data-bs-toggle="modal"
         data-bs-target="#createCard"
         data-col-id="${col.id}"
@@ -71,6 +70,7 @@ const makeCol = async (data) => {
       `
     </div>
     </li>`;
+
     colList.innerHTML += tempHtml;
   }
   //칼럼 삭제 이벤트

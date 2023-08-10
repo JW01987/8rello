@@ -41,8 +41,8 @@ export class BoardEntity {
   @BeforeInsert()
   @BeforeUpdate()
   validatebg_color() {
-    if (!/^#([0-9A-Fa-f]{5})$/.test(this.bg_color)) {
-      throw new Error('컬러 코드를 입력해주세요 (ex. #00000)');
+    if (!/^#([0-9A-Fa-f]{6})$/.test(this.bg_color)) {
+      throw new Error('컬러 코드를 입력해주세요 (ex. #000000)');
     }
   }
 

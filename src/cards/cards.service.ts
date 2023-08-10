@@ -7,8 +7,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCardDto } from './dto/card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
 import { Card } from 'src/entities/card.entity';
+import { CardMember } from 'src/entities/card-member.entitiy';
 import { MoreThanOrEqual, Repository } from 'typeorm';
 import { Card_comment } from 'src/entities/card-comment.entity';
+import { User } from 'src/entities/user.entity';
 
 @Injectable()
 export class CardsService {
@@ -18,6 +20,12 @@ export class CardsService {
 
     @InjectRepository(Card_comment)
     private commentRepository: Repository<Card_comment>,
+
+    @InjectRepository(CardMember)
+    private cardMemberRepository: Repository<CardMember>,
+
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
   ) {}
 
   public async createCard(createCardDto: CreateCardDto, column_id: number) {
@@ -112,6 +120,10 @@ export class CardsService {
       // await this.cardRepository.update({id:card_id}, {column:column_id})
       await this.cardRepository.save(targetCard);
       return targetCard;
+    } else if (!nextPosition) {
+      targetCard.position = prevPosition + 1000;
+      await this.cardRepository.save(targetCard);
+      return targetCard;
     } else {
       targetCard.position = Math.ceil((prevPosition + nextPosition) / 2);
       await this.cardRepository.save(targetCard);
@@ -131,5 +143,36 @@ export class CardsService {
   public async deleteCard(card_id) {
     await this.cardRepository.delete({ id: card_id });
     return { message: '카드가 삭제되었습니다' };
+  }
+
+  public async getMembers(card_id) {
+    const members = await this.cardMemberRepository.find({
+      where: { card: { id: card_id } },
+      relations: ['user'],
+    });
+
+    const membersData = members.map((member) => ({
+      id: member.user.id,
+      username: member.user.username,
+    }));
+
+    return { message: '조회 완료', result: membersData };
+  }
+
+  public async addMember(card_id, user_email) {
+    const user = await this.userRepository.findOne({
+      where: { email: user_email },
+    });
+
+    if (!user) {
+      return { message: '해당 이메일을 가진 유저를 찾을 수 없습니다.' };
+    }
+
+    const result = await this.cardMemberRepository.save({
+      card: { id: card_id },
+      user: { id: user.id },
+    });
+
+    return { message: '멤버가 추가되었습니다.', result };
   }
 }

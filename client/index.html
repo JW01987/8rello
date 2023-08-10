@@ -30,12 +30,23 @@
       integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
       crossorigin="anonymous"
     ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+      integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
     <script defer src="/js/main.js"></script>
     <script defer src="/js/column.js"></script>
     <script defer src="/js/create-board.js"></script>
     <script defer src="/js/board.js"></script>
     <script defer src="/js/logout.js"></script>
     <script defer src="/js/card.js"></script>
+    <script defer src="/js/create-board.js"></script>
+    <script defer src="/js/profile.js"></script>
+    <script defer src="/js/invite.js"></script>
+    <script defer src="/js/card-member.js"></script>
   </head>
   <body class="menu-active">
     <!-- 모달 : 보드 생성 -->
@@ -81,7 +92,7 @@
             </div>
             <div class="mb-3">
               <label for="board-color" class="form-label"
-                >배경색으로 지정할 컬러값을 입력해주세요. (ex.#00000)</label
+                >배경색으로 지정할 컬러값을 입력해주세요. (ex.#000000)</label
               >
               <input
                 type="text"
@@ -155,7 +166,7 @@
             </div>
             <div class="mb-3">
               <label for="editBoardColor" class="form-label"
-                >배경색으로 지정할 컬러값을 입력해주세요. (ex.#00000)</label
+                >배경색으로 지정할 컬러값을 입력해주세요. (ex.#000000)</label
               >
               <input
                 type="text"
@@ -210,13 +221,13 @@
           </div>
           <div class="modal-body">
             <div class="mb-3">
-              <label for="exampleFormControlInput1" class="form-label"
+              <label for="inviteUserId" class="form-label"
                 >초대할 유저의 아이디를 입력해주세요.</label
               >
               <input
                 type="text"
                 class="form-control"
-                id="exampleFormControlInput1"
+                id="inviteUserId"
                 placeholder="id"
               />
             </div>
@@ -229,7 +240,7 @@
             >
               닫기
             </button>
-            <button type="button" id="btnInvite" class="btn btn-primary">
+            <button type="button" id="userInviteBtn" class="btn btn-primary">
               초대하기
             </button>
           </div>
@@ -372,8 +383,7 @@
             <button
               type="button"
               id="btnInvite"
-              class="btn btn-primary"
-              onclick="createCard()"
+              class="btn btn-primary create-card-btn"
             >
               생성하기
             </button>
@@ -417,13 +427,29 @@
             </div>
             <!-- 카드 멤버 -->
             <div class="content-inner">
-              <h6 class="content-title">카드 멤버</h6>
-              <ul class="card-member-list">
-                <li>김아무개</li>
-                <li>유아무개</li>
-                <li>눈아무개</li>
-                <li>밍아무개</li>
-              </ul>
+              <div class="flex-wrap">
+                <div class="mb-2">
+                  <h6 class="content-title" style="margin-right: 15px">
+                    카드 멤버
+                  </h6>
+                  <div class="input-box">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="addMemberInput"
+                      placeholder="유저 아이디를 입력해주세요."
+                    />
+                    <button
+                      id="btnAddMember"
+                      class="btn btn-primary btn-sm"
+                      data-card-id="1"
+                    >
+                      멤버 추가
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <ul class="card-member-list"></ul>
             </div>
             <!-- 새 댓글 -->
             <div class="content-inner">
@@ -684,7 +710,7 @@
 
       <!-- 본문 -->
       <div id="page-content-wrapper">
-        <div class="content-header mb-5">
+        <div class="content-header">
           <div class="flex-wrap">
             <h1></h1>
             <div class="btn-wrap bottom">
@@ -741,13 +767,6 @@
               >
                 칼럼 +
               </button>
-              <div>
-                <span style="margin-right: 5px"
-                  >컬럼 옮기기(✔️체크 후 진행) :</span
-                >
-                <button style="margin-right: 15px">⬅️</button>
-                <button>➡️</button>
-              </div>
             </div>
             <ul class="column-list"></ul>
           </div>
