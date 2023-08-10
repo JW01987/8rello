@@ -108,7 +108,7 @@ document
             class="form-control"
             placeholder="수정할 댓글내용을 입력해주세요."
           />
-          <button type="button" class="btn btn-dark">
+          <button type="button" class="btn btn-dark comment-edit-btn"  data-comment-id=${data.id}>
             등록하기
           </button>
         </div>
@@ -156,6 +156,13 @@ document
         deleteComment(comment_id);
       });
     });
+    //댓글 수정
+    document.querySelectorAll('.comment-edit-btn').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        const commentId = e.target.getAttribute('data-comment-id');
+        updateComment(e, commentId);
+      });
+    });
   });
 
 async function deleteComment(comment_id) {
@@ -166,3 +173,23 @@ async function deleteComment(comment_id) {
   ).json();
   alert(data.message);
 }
+
+const updateComment = async (e, commentId) => {
+  const comment = e.target.previousElementSibling.value;
+
+  await fetch('/cards/comments', {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      commentId,
+      comment,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      alert(data.message);
+    })
+    .then(window.location.reload());
+};

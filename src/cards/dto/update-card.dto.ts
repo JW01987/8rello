@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateCardDto } from './card.dto';
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class UpdateCardDto extends PartialType(CreateCardDto) {
   card_name: string;
@@ -21,4 +21,14 @@ export class updateCardPositionDto {
   @IsNotEmpty()
   @IsNumber()
   nextPosition: number;
+}
+
+export class updateCommentDto {
+  @IsNotEmpty()
+  @IsNumber()
+  commentId: number;
+
+  @IsNotEmpty()
+  @IsString()
+  comment: string;
 }

@@ -14,10 +14,15 @@ import {
 } from '@nestjs/common';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './dto/card.dto';
-import { UpdateCardDto, updateCardPositionDto } from './dto/update-card.dto';
+import {
+  UpdateCardDto,
+  updateCardPositionDto,
+  updateCommentDto,
+} from './dto/update-card.dto';
 import { Response, query } from 'express';
 import { IRequest } from 'src/commons/interfaces/context';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { retry } from 'rxjs';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('cards')
 export class CardsController {
@@ -137,6 +142,14 @@ export class CardsController {
   ) {
     const { message } = await this.cardsService.deleteCardComment(comment_id);
     return res.json({ message });
+  }
+
+  //카드 댓글 수정
+  @Patch('comments')
+  async updateComment(
+    @Body() data: updateCommentDto,
+  ): Promise<{ message: string }> {
+    return this.cardsService.updateComment(data);
   }
 
   // 카드 삭제
