@@ -39,7 +39,6 @@ document
       });
   });
 
-
 // 카드 상세 모달
 document
   .getElementById('cardDetail')
@@ -109,7 +108,7 @@ document
             class="form-control"
             placeholder="수정할 댓글내용을 입력해주세요."
           />
-          <button type="button" class="btn btn-dark">
+          <button type="button" class="btn btn-dark comment-edit-btn ">
             등록하기
           </button>
         </div>
@@ -147,6 +146,15 @@ document
         deleteComment(comment_id);
       });
     });
+    // //댓글 수정
+    // document.querySelectorAll('.comment-edit-btn').forEach((btn) => {
+    //   console.log('이것은 버튼', btn);
+    //   btn.addEventListener('click', (e) => {
+    //     const commentId = e.target.getAttribute('data-comment-id');
+    //     console.log(1, commentId);
+    //     //카드 아이디
+    //   });
+    // });
   });
 
 async function deleteComment(comment_id) {
