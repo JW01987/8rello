@@ -37,7 +37,7 @@ export class CardsService {
     return { result, message: '카드 생성에 성공했습니다.' };
   }
 
-  public async showColumnCard(column_id) {
+  public async showColumnCard(column_id: number) {
     const results = await this.cardRepository.find({
       where: { column_id },
       order: { position: 'ASC' },
@@ -130,6 +130,17 @@ export class CardsService {
       user: { id: user_id },
     });
     return { message: '댓글이 작성되었습니다', result };
+  }
+
+  public async findCardComments(card_id: number) {
+    const results = await this.commentRepository.find({ where: { card_id } });
+    return results;
+  }
+
+  public async deleteCardComment(comment_id) {
+    const result = await this.commentRepository.delete({ id: comment_id });
+    if (!result) throw new NotFoundException('존재하지 않는 댓글입니다');
+    return { message: '댓글이 삭제되었습니다' };
   }
 
   public async deleteCard(card_id) {

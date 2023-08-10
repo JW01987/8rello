@@ -42,7 +42,7 @@ export class Card {
   column: Columns;
 
   @OneToMany(() => Card_comment, (card_comments) => card_comments.card)
-  card_comments: Card_comment;
+  card_comments: Card_comment[];
 
   // @OneToMany(() => CardMember, (cardMember) => cardMember.card)
   // cardMember: CardMember;

@@ -415,13 +415,17 @@
           <div class="modal-body">
             <!-- 카드 정보 -->
             <div class="content-inner flex-wrap-j">
-              <h6 class="content-title">팀 프로젝트 마무리하기 카드</h6>
-              <p>마감일: <span>2023.08.08</span></p>
+              <h6 class="content-title card-name">
+                팀 프로젝트 마무리하기 카드
+              </h6>
+              <p>마감일: <span class="card-deadline">2023.08.08</span></p>
             </div>
             <!-- 설명 -->
             <div class="content-inner">
               <h6 class="content-title">설명</h6>
-              <p>팀 프로젝트를 빨리 마무리 하고 쉬고싶습니다만...</p>
+              <p class="card-description">
+                팀 프로젝트를 빨리 마무리 하고 쉬고싶습니다만...
+              </p>
             </div>
             <!-- 카드 멤버 -->
             <div class="content-inner">
@@ -441,10 +445,12 @@
                 <input
                   type="text"
                   class="form-control"
-                  id="exampleFormControlInput1"
+                  id="comment-input"
                   placeholder="댓글을 입력해주세요."
                 />
-                <button type="button" class="btn btn-dark">등록하기</button>
+                <button type="button" class="btn btn-dark write-comment-btn">
+                  등록하기
+                </button>
               </div>
             </div>
             <!-- 댓글 리스트 -->
@@ -494,7 +500,6 @@
                       <input
                         type="text"
                         class="form-control"
-                        id="exampleFormControlInput1"
                         placeholder="수정할 댓글내용을 입력해주세요."
                       />
                       <button type="button" class="btn btn-dark">

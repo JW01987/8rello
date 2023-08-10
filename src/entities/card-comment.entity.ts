@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { User } from './user.entity';
 import { Card } from './card.entity';
 
@@ -10,9 +16,22 @@ export class Card_comment {
   @Column()
   comment: string;
 
-  @ManyToOne(() => User, (user) => user.card_comments)
+  @Column()
+  card_id: number;
+
+  @Column()
+  user_id: number;
+
+  @ManyToOne(() => User, (user) => user.card_comments, {
+    eager: true,
+  })
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToOne(() => Card, (card) => card.card_comments)
+  @ManyToOne(() => Card, (card) => card.card_comments, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'card_id' })
   card: Card;
 }
