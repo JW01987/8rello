@@ -6,7 +6,9 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '../auth/auth.guard';
 import {
   changeColPositionDto,
   ColumnDto,
@@ -18,13 +20,15 @@ import { ColumnService } from './column.service';
 export class ColumnController {
   constructor(private columnService: ColumnService) {}
 
-  //@UseGuards(AuthGuard)
+  //보드에 속한 칼럼 모두 불러오기
+  @UseGuards(AuthGuard)
   @Get(':id')
   async findAll(@Param('id') boardId: number): Promise<ColumnDto[]> {
     return await this.columnService.findAll(boardId);
   }
 
-  //@UseGuards(AuthGuard)
+  //칼럼 만들기
+  @UseGuards(AuthGuard)
   @Post()
   async createCol(
     @Body() data: ColumnDto,
@@ -32,7 +36,8 @@ export class ColumnController {
     return await this.columnService.create(data);
   }
 
-  //@UseGuards(AuthGuard)
+  //칼럼 수정하기
+  @UseGuards(AuthGuard)
   @Patch()
   async updateCol(
     @Body() data: updateColumnDto,
@@ -40,7 +45,8 @@ export class ColumnController {
     return await this.columnService.update(data);
   }
 
-  //@UseGuards(AuthGuard)
+  //칼럼 삭제하기
+  @UseGuards(AuthGuard)
   @Delete('/:id')
   async deleteCol(
     @Param('id') id: number,
@@ -48,8 +54,8 @@ export class ColumnController {
     return await this.columnService.delete(id);
   }
 
-  //맨 앞이거나 맨 뒤라면 prev, next의 값을 0으로 주세요
-  //@UseGuards(AuthGuard)
+  //칼럼 위치 이동
+  @UseGuards(AuthGuard)
   @Patch('/index')
   async changeIndex(
     @Body() data: changeColPositionDto,

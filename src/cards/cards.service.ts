@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCardDto } from './dto/card.dto';
-import { UpdateCardDto } from './dto/update-card.dto';
+import { UpdateCardDto, updateCommentDto } from './dto/update-card.dto';
 import { Card } from 'src/entities/card.entity';
 import { CardMember } from 'src/entities/card-member.entitiy';
 import { MoreThanOrEqual, Repository } from 'typeorm';
@@ -45,7 +45,7 @@ export class CardsService {
     return { result, message: '카드 생성에 성공했습니다.' };
   }
 
-  public async showColumnCard(column_id) {
+  public async showColumnCard(column_id: number) {
     const results = await this.cardRepository.find({
       where: { column_id },
       order: { position: 'ASC' },
@@ -116,8 +116,6 @@ export class CardsService {
       }
       nextPosition = nextPosition + 1000;
       targetCard.position = Math.ceil((prevPosition + nextPosition) / 2);
-      // targetCard.column = column_id;
-      // await this.cardRepository.update({id:card_id}, {column:column_id})
       await this.cardRepository.save(targetCard);
       return targetCard;
     } else if (!nextPosition) {
@@ -138,6 +136,17 @@ export class CardsService {
       user: { id: user_id },
     });
     return { message: '댓글이 작성되었습니다', result };
+  }
+
+  public async findCardComments(card_id: number) {
+    const results = await this.commentRepository.find({ where: { card_id } });
+    return results;
+  }
+
+  public async deleteCardComment(comment_id) {
+    const result = await this.commentRepository.delete({ id: comment_id });
+    if (!result) throw new NotFoundException('존재하지 않는 댓글입니다');
+    return { message: '댓글이 삭제되었습니다' };
   }
 
   public async deleteCard(card_id) {
@@ -174,5 +183,21 @@ export class CardsService {
     });
 
     return { message: '멤버가 추가되었습니다.', result };
+  }
+
+  //카드 댓글 수정
+  async updateComment(data: updateCommentDto) {
+    const { commentId, comment } = data;
+    const found = await this.commentRepository.findOne({
+      where: { id: commentId },
+    });
+    if (!found) throw new NotFoundException('코맨트를 찾을 수 없습니다');
+    await this.commentRepository
+      .createQueryBuilder()
+      .update(Card_comment)
+      .set({ comment })
+      .where('id = :commentId', { commentId })
+      .execute();
+    return { message: '댓글이 수정되었습니다' };
   }
 }

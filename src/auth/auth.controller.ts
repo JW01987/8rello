@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
-import { AuthGuard } from './auth.guard';
 import { Response } from 'express';
 
 @Controller('auth')
@@ -33,7 +32,6 @@ export class AuthController {
   }
 
   // 🍉 로그아웃
-  @UseGuards(AuthGuard)
   @Post('logout')
   async logout(@Res() response: Response) {
     response.clearCookie('access_token');

@@ -41,8 +41,151 @@ document
 // 카드 상세 모달
 document
   .getElementById('cardDetail')
-  .addEventListener('shown.bs.modal', (event) => {
+  .addEventListener('shown.bs.modal', async (event) => {
     const modalTriggerButton = event.relatedTarget;
     const card_id = modalTriggerButton.getAttribute('data-card-id');
-    console.log(card_id);
+
+    const data = await fetch(`/cards/detail?card_id=${card_id}`);
+    const cardData = await data.json();
+    const cardDetail = cardData.result;
+    const cardName = document.querySelector('.card-name');
+    cardName.textContent = cardDetail.card_name;
+    const cardDescription = document.querySelector('.card-description');
+    cardDescription.textContent = cardDetail.description;
+    const cardDeadline = document.querySelector('.card-deadline');
+    cardDeadline.textContent = cardDetail.deadline;
+
+    // 댓글 불러와서 innerHTML로 넣어주기
+    const commentData = await (
+      await fetch(`/cards/comments?card_id=${card_id}`)
+    ).json();
+    const commentList = document.querySelector('.comment-list');
+    commentList.innerHTML = ``; // 다른카드 데이터 안남아있게 commentList 초기화
+    let comment_temp = ``;
+    for await (let data of commentData) {
+      let comment = data.comment;
+      let username = data.user.username;
+      comment_temp += `<li class="comment-item">
+      <strong class="user-id mb-3">${username} :</strong>
+      <div class="comment-content">
+        <div>
+          <span class="user-comment"
+            >${comment}</span
+          >
+        </div>
+        <div class="btn-right">
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-comment-edit"
+            style="
+              --bs-btn-padding-y: 0.25rem;
+              --bs-btn-padding-x: 0.5rem;
+              --bs-btn-font-size: 0.75rem;
+            " data-comment-id=${data.id}
+          >
+            수정
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-secondary comment-delete-btn"
+            style="
+              --bs-btn-padding-y: 0.25rem;
+              --bs-btn-padding-x: 0.5rem;
+              --bs-btn-font-size: 0.75rem;
+            " data-comment-id=${data.id}
+          >
+            삭제
+          </button>
+        </div>
+      </div>
+      <div class="comment-edit-content">
+        <div class="input-box">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="수정할 댓글내용을 입력해주세요."
+          />
+          <button type="button" class="btn btn-dark comment-edit-btn"  data-comment-id=${data.id}>
+            등록하기
+          </button>
+        </div>
+      </div>
+    </li>`;
+      commentList.innerHTML = comment_temp;
+    }
+
+    //댓글 작성버튼
+    document
+      .querySelector('.write-comment-btn')
+      .addEventListener('click', async (event) => {
+        const comment = document.getElementById('comment-input').value;
+        const response = await fetch(`/cards/comments?card_id=${card_id}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            comment: comment,
+          }),
+        });
+        const data = await response.json();
+        alert(data.message);
+      });
+
+    // 멤버 불러오기
+    let member_temp = ``;
+    const memberData = await (await fetch(`/cards/member/${card_id}`)).json();
+    const memberList = document.querySelector('.card-member-list');
+    memberData.result.forEach((ele) => {
+      const username = ele.username;
+      member_temp += `<li>${username}</li>`;
+    });
+    memberList.innerHTML = member_temp;
+
+    //댓글 삭제 버튼
+    const deleteBtn = document.querySelectorAll('.comment-delete-btn');
+    deleteBtn.forEach((btn) => {
+      btn.addEventListener('click', (event) => {
+        const comment_id = event.target.getAttribute('data-comment-id');
+        deleteComment(comment_id);
+      });
+    });
+    //댓글 수정 버튼
+    document.querySelectorAll('.comment-edit-btn').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        const commentId = e.target.getAttribute('data-comment-id');
+        updateComment(e, commentId);
+      });
+    });
   });
+
+//댓글 삭제 함수
+async function deleteComment(comment_id) {
+  const data = await (
+    await fetch(`/cards/comments?comment_id=${comment_id}`, {
+      method: 'DELETE',
+    })
+  ).json();
+  alert(data.message);
+}
+
+//댓글 수정 함수
+const updateComment = async (e, commentId) => {
+  const comment = e.target.previousElementSibling.value;
+
+  await fetch('/cards/comments', {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      commentId,
+      comment,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      alert(data.message);
+    })
+    .then(window.location.reload());
+};

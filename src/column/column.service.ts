@@ -18,6 +18,7 @@ export class ColumnService {
     @InjectRepository(Columns) private columnsRepository: Repository<Columns>,
   ) {}
 
+  //보드에 속한 모든 칼럼 가져오기
   async findAll(boardId: number) {
     const found = await this.columnsRepository
       .createQueryBuilder('column')
@@ -27,12 +28,14 @@ export class ColumnService {
     return found;
   }
 
+  //칼럼 하나 가져오기
   async findOne(id: number) {
     const found = await this.columnsRepository.findOne({ where: { id } });
     if (!found) throw new NotFoundException('칼럼을 찾을 수 없습니다');
     return found;
   }
 
+  //마지막 칼럼의 위치 구하는 함수
   async lastPosition() {
     return await this.columnsRepository
       .createQueryBuilder('column')
@@ -41,9 +44,10 @@ export class ColumnService {
       .take(1)
       .getOne();
   }
+
+  //칼럼 생성하기
   async create(data: ColumnDto) {
     const boardId = data.boardId;
-    //보드가 존재하는지 확인하는 코드 추가 필요
     const found = await this.findAll(boardId);
     if (found.length === 0) {
       const create = this.columnsRepository.create({
@@ -65,6 +69,7 @@ export class ColumnService {
     return { status: true, message: '칼럼 생성에 성공하였습니다' };
   }
 
+  //칼럼 수정하기
   async update(data: updateColumnDto) {
     const name = data.name;
     const id = data.id;
@@ -81,12 +86,14 @@ export class ColumnService {
     }
   }
 
+  //칼럼 삭제하기
   async delete(id: number) {
     await this.findOne(id);
     await this.columnsRepository.delete({ id });
     return { status: true, message: '칼럼이 삭제되었습니다' };
   }
 
+  //칼럼 위치 이동
   async changeIndex(data: changeColPositionDto) {
     const id = data.id;
 
