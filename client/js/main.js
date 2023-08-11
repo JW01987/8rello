@@ -35,5 +35,4 @@ commentContainer.addEventListener('click', (event) => {
 
 //-- 지금 접속하고 있는 board_id값 추출 --//
 const currentPath = window.location.pathname;
-const id = currentPath.match(/\d+/)[0]; // 경로에서 숫자 값 추출
-console.log(id); // 추출된 숫자 값 출력
+const id = currentPath.match(/\d+/)[0];

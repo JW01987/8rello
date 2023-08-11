@@ -15,9 +15,8 @@ import {
   Req,
 } from '@nestjs/common';
 import { BoardService } from './board.service';
-import { CreateBoardDto, UpdateBoardDto } from './dto';
+import { CreateBoardDto, UpdateBoardDto, InvitationUser } from './dto';
 import { AuthGuard } from '../auth/auth.guard';
-import { InvitationUser } from './dto/invitation-user.dto';
 
 @Controller('board')
 export class BoardController {
@@ -74,7 +73,6 @@ export class BoardController {
   @Post('/invitation')
   async invitation(@Body() data: InvitationUser, @Req() request: any) {
     const user = request.user;
-    console.log(1, user);
     return await this.boardService.createBoardAuthority(data, user);
   }
 }
